@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hello Zeefine</title>
+  <subtitle>Welcom~</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://zeefine.coding.me/blog/"/>
+  <updated>2017-11-11T11:58:39.950Z</updated>
+  <id>https://zeefine.coding.me/blog/</id>
+  
+  <author>
+    <name>zeefine</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>N的阶乘的长度（斯特林近似）</title>
+    <link href="https://zeefine.coding.me/blog/year/11/11/N%E7%9A%84%E9%98%B6%E4%B9%98%E7%9A%84%E9%95%BF%E5%BA%A6%EF%BC%88%E6%96%AF%E7%89%B9%E6%9E%97%E8%BF%91%E4%BC%BC%EF%BC%89/"/>
+    <id>https://zeefine.coding.me/blog/year/11/11/N的阶乘的长度（斯特林近似）/</id>
+    <published>2017-11-11T12:11:52.668Z</published>
+    <updated>2017-11-11T11:58:39.950Z</updated>
+    
+    <content type="html"><![CDATA[<p>输入N求N的阶乘的10进制表示的长度。例如6! = 720，长度为3。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p><strong>Input</strong><br>第1行：一个数T，表示后面用作输入测试的数的数量。（1 &lt;= T &lt;= 1000)<br>第2 - T + 1行：每行1个数N。（1 &lt;= N &lt;= 10^9)</p>
+<hr>
+<p><strong>Output</strong><br>共T行，输出对应的阶乘的长度。</p>
+<hr>
+<p><strong>Input示例</strong></p>
+<blockquote>
+<p>3<br>4<br>5<br>6</p>
+</blockquote>
+<hr>
+<p><strong>Output示例</strong></p>
+<blockquote>
+<p>2<br>3<br>3</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong>：数A的长度len=log10(A)+1<br>斯特林公式：<img src="http://img.blog.csdn.net/20160911143306252" alt="此处输入图片的描述"></p>
+<blockquote>
+<p>所以：<br>  n!=sqrt(2<em>PI</em>n)<em>(n/e)^n<br>  log10(n!)=0.5</em>log10(2<em>PI</em>n)+n*log10(n/e)</p>
+</blockquote>
+<p>注意log函数形参为double类型</p>
+<p><strong>完整代码</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line">    </div><div class="line">#define PI 3.1415926</div><div class="line">#define e 2.718281828459</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int t;</div><div class="line">    long long n,ans;</div><div class="line">    scanf(&quot;%d&quot;,&amp;t);</div><div class="line">    while(t--)</div><div class="line">    &#123;</div><div class="line">        scanf(&quot;%I64d&quot;,&amp;n);</div><div class="line">        ans=0.5*log10(2.0*PI*n)+n*log10(1.0*n/e)+1;</div><div class="line">        printf(&quot;%I64d\n&quot;,ans);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;输入N求N的阶乘的10进制表示的长度。例如6! = 720，长度为3。&lt;/p&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="acm" scheme="https://zeefine.coding.me/blog/categories/acm/"/>
+    
+    
+      <category term="数学" scheme="https://zeefine.coding.me/blog/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+      <category term="公式" scheme="https://zeefine.coding.me/blog/tags/%E5%85%AC%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>N! mod P</title>
+    <link href="https://zeefine.coding.me/blog/year/11/11/N!%20mod%20P/"/>
+    <id>https://zeefine.coding.me/blog/year/11/11/N! mod P/</id>
+    <published>2017-11-11T12:11:52.660Z</published>
+    <updated>2017-11-11T11:46:27.916Z</updated>
+    
+    <content type="html"><![CDATA[<p>输入N和P（P为质数），求N! Mod P = ? (Mod 就是求模 %)</p>
+<p>例如：n = 10， P = 11，10! = 3628800<br>3628800 % 11 = 10</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p><strong>Input</strong><br>两个数N,P，中间用空格隔开。(N &lt; 10000, P &lt; 10^9)</p>
+<hr>
+<p><strong>Output</strong><br>输出N! mod P的结果。</p>
+<hr>
+<p><strong>Input示例</strong></p>
+<blockquote>
+<p>10 11</p>
+</blockquote>
+<hr>
+<p><strong>Output示例</strong></p>
+<blockquote>
+<p>10</p>
+</blockquote>
+<hr>
+<p><strong>方法</strong>：(axb)%M = a%Mxb%M</p>
+<hr>
+<p><strong>完整代码</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">    int main()</div><div class="line">    &#123;</div><div class="line">        __int64 N,P,i,ans;</div><div class="line">        ans=1;</div><div class="line">        scanf(&quot;%I64d %I64d&quot;,&amp;N,&amp;P);</div><div class="line">        for(i=1;i&lt;=N;i++)</div><div class="line">            ans=(ans*i)%P;</div><div class="line">        printf(&quot;%I64d&quot;,ans);</div><div class="line">    return 0;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;输入N和P（P为质数），求N! Mod P = ? (Mod 就是求模 %)&lt;/p&gt;
+&lt;p&gt;例如：n = 10， P = 11，10! = 3628800&lt;br&gt;3628800 % 11 = 10&lt;/p&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="acm" scheme="https://zeefine.coding.me/blog/categories/acm/"/>
+    
+    
+      <category term="数学" scheme="https://zeefine.coding.me/blog/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+      <category term="公式" scheme="https://zeefine.coding.me/blog/tags/%E5%85%AC%E5%BC%8F/"/>
+    
+  </entry>
+  
+</feed>
