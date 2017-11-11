@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zeefine.coding.me/blog/"/>
-  <updated>2017-11-11T11:58:39.950Z</updated>
+  <updated>2017-11-11T13:38:51.773Z</updated>
   <id>https://zeefine.coding.me/blog/</id>
   
   <author>
@@ -14,6 +14,146 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hdu水题(2000-2100)部分1</title>
+    <link href="https://zeefine.coding.me/blog/year/11/11/hdu%E6%B0%B4%E9%A2%98(2000-2100)%E9%83%A8%E5%88%861/"/>
+    <id>https://zeefine.coding.me/blog/year/11/11/hdu水题(2000-2100)部分1/</id>
+    <published>2017-11-11T13:38:42.044Z</published>
+    <updated>2017-11-11T13:38:51.773Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>2001 计算两点距离</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p><strong>Input</strong><br>输入数据有多组，每组占一行，由4个实数组成，分别表示x1,y1,x2,y2,数据之间用空格隔开。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行，结果保留两位小数。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>0 0 0 1<br>0 1 1 0</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>1.00<br>1.41</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong><br>两点间距离公式<img src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2977505688,268921554&amp;fm=58" alt="此处输入图片的描述"></p>
+<p>  注意用浮点数类型<br>  printf(“%.2lf\n”,ans);//输出保留两位小数</p>
+<hr>
+<p><strong>完整代码</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    double x1,y1,x2,y2;</div><div class="line">    double ans;</div><div class="line">    while(scanf(&quot;%lf%lf%lf%lf&quot;,&amp;x1,&amp;y1,&amp;x2,&amp;y2) != EOF)</div><div class="line">    &#123;</div><div class="line">        ans=sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));</div><div class="line">        printf(&quot;%.2lf\n&quot;,ans);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>2005 第几天？</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>给定一个日期，输出这个日期是该年的第几天。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据有多组，每组占一行，数据格式为YYYY/MM/DD组成，具体参见sample input ,另外，可以向你确保所有的输入数据是合法的。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行，表示该日期是该年的第几天。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>1985/1/20<br>2006/3/12</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>20<br>71</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong><br>需要判断闰年，如果是闰年2月有29天，否则有28天。</p>
+<blockquote>
+<p>//判断闰年<br>int leapyear(int a)<br>{<br>    if(a%4 == 0 &amp;&amp; a%100 != 0 || a%400 == 0) return 1;<br>    else return 0;<br>}</p>
+</blockquote>
+<p>第几天=1月到输入月份之间天数总和+输入天数。<br>计算过程:如果输入2006/3/12<br>判断是否是闰年，结果=1到2月天数和+12天</p>
+<hr>
+<p><strong>完整代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">int leapyear(int a)</div><div class="line">&#123;</div><div class="line">    if(a%4 == 0 &amp;&amp; a%100 != 0 || a%400 == 0) return 1;</div><div class="line">    else return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int year,month,day,flag;</div><div class="line">    while(scanf(&quot;%d/%d/%d&quot;,&amp;year,&amp;month,&amp;day) != EOF)</div><div class="line">    &#123;</div><div class="line">        int sum=0;</div><div class="line">        flag=leapyear(year);</div><div class="line">        if(month == 1) printf(&quot;%d\n&quot;,day);</div><div class="line">        else&#123;</div><div class="line">            switch(month)//计算1月到输入月份之间所有天数</div><div class="line">            &#123;</div><div class="line">                case 12:</div><div class="line">                 sum+=30;</div><div class="line">                case 11:</div><div class="line">                 sum+=31;</div><div class="line">                case 10:</div><div class="line">                 sum+=30;</div><div class="line">                case 9:</div><div class="line">                 sum+=31;</div><div class="line">                case 8:</div><div class="line">                 sum+=31;</div><div class="line">                case 7:</div><div class="line">                 sum+=30;</div><div class="line">                case 6:</div><div class="line">                 sum+=31;</div><div class="line">                case 5:</div><div class="line">                 sum+=30;</div><div class="line">                case 4:</div><div class="line">                 sum+=31;</div><div class="line">                case 3:</div><div class="line">                 if(flag) sum+=29;</div><div class="line">                 else sum+=28;</div><div class="line">                case 2:</div><div class="line">                 sum+=31;</div><div class="line">            &#125;</div><div class="line">            int ans;</div><div class="line">            ans=sum+day; //1月到输入月份之间天数总和+输入天数</div><div class="line">            printf(&quot;%d\n&quot;,ans);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">	    return 0;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>平方和与立方和</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>给定一段连续的整数，求出他们中所有偶数的平方和以及所有奇数的立方和。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据包含多组测试实例，每组测试实例包含一行，由两个整数m和n组成。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行，应包括两个整数x和y，分别表示该段连续的整数中所有偶数的平方和以及所有奇数的立方和。<br>你可以认为32位整数足以保存结果。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>1 3<br>2 5</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>4 28<br>20 152</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong><br>题目中并未说明输入的x和y大小问题，该段的距离时可能是x-y或y-x<br>利用循环依次判断段中的数为偶数还是奇数</p>
+<hr>
+<p><strong>完整代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int m,n,t;</div><div class="line">    while(scanf(&quot;%d%d&quot;,&amp;m,&amp;n) != EOF)</div><div class="line">    &#123;</div><div class="line">        int sum1=0,sum2=0;</div><div class="line">        if(m&gt;n)&#123;t=m;m=n;n=t;&#125;</div><div class="line">        for(;m&lt;=n;m++)//依次判断段中整数</div><div class="line">        &#123;</div><div class="line">            if(m%2) sum2+=(m*m*m);//奇数</div><div class="line">            else sum1+=(m*m);偶数</div><div class="line">        &#125;</div><div class="line">        printf(&quot;%d %d\n&quot;,sum1,sum2);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>2008 数值统计</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>统计给定的n个数中，负数、零和正数的个数。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据有多组，每组占一行，每行的第一个数是整数n（n&lt;100），表示需要统计的数值的个数，然后是n个实数；如果n=0，则表示输入结束，该行不做处理。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行a,b和c，分别表示给定的数据中负数、零和正数的个数。</p>
+<hr>
+<p>###Sample Input</p>
+<blockquote>
+<p>6 0 1 2 3 -1 0<br>5 1 2 3 4 0.5<br>0 </p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>1 2 3<br>0 0 5</p>
+</blockquote>
+<hr>
+<p><strong><em>解题思路</em></strong><br>注意样例中有浮点数，所以要用浮点型<br>每次输入判断即可</p>
+<hr>
+<p><strong><em>完整代码</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int n;</div><div class="line">    double a;</div><div class="line">    while(scanf(&quot;%d&quot;,&amp;n), n != 0)</div><div class="line">    &#123;</div><div class="line">        int x=0,y=0,z=0;</div><div class="line">        while(n--)</div><div class="line">        &#123;</div><div class="line">            scanf(&quot;%lf&quot;,&amp;a);</div><div class="line">            if(a&gt;0) z++;</div><div class="line">            else if(a&lt;0) x++;</div><div class="line">            else y++;</div><div class="line">        &#125;</div><div class="line">        printf(&quot;%d %d %d\n&quot;,x,y,z);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>2009 求数列的和</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>数列的定义如下：<br>数列的第一项为n，以后各项为前一项的平方根，求数列的前m项的和。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据有多组，每组占一行，由两个整数n（n&lt;10000）和m(m&lt;1000)组成，n和m的含义如前所述。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出该数列的和，每个测试实例占一行，要求精度保留2位小数。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>81 4<br>2 2</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>94.73<br>3.41</p>
+</blockquote>
+<hr>
+<p><strong><em>解题思路</em></strong><br>平方根注意使用浮点类型<br>数列A[N]=√A[N-1]</p>
+<hr>
+<p><strong><em>完整代码</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int n,m,i;</div><div class="line">    while(scanf(&quot;%d %d&quot;,&amp;n,&amp;m) != EOF)</div><div class="line">    &#123;</div><div class="line">        double a[m],sum;</div><div class="line">        a[0]=sum=n;</div><div class="line">        for(i=1;i&lt;m;i++)</div><div class="line">        &#123;</div><div class="line">            a[i]=sqrt(a[i-1]);// 数列第i+1项</div><div class="line">            sum+=a[i];// 求和</div><div class="line">        &#125;</div><div class="line">        printf(&quot;%.2f\n&quot;,sum);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;2001 计算两点距离&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Problem Description&lt;/strong&gt;&lt;br&gt;输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。&lt;/p&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="acm" scheme="https://zeefine.coding.me/blog/categories/acm/"/>
+    
+    
+      <category term="水" scheme="https://zeefine.coding.me/blog/tags/%E6%B0%B4/"/>
+    
+  </entry>
   
   <entry>
     <title>N的阶乘的长度（斯特林近似）</title>

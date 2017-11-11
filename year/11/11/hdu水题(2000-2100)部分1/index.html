@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="水," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hello Zeefine" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="2001 计算两点距离
+
+Problem Description输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hdu水题(2000-2100)部分1">
+<meta property="og:url" content="https://zeefine.coding.me/blog/year/11/11/hdu水题(2000-2100)部分1/index.html">
+<meta property="og:site_name" content="Hello Zeefine">
+<meta property="og:description" content="2001 计算两点距离
+
+Problem Description输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。">
+<meta property="og:image" content="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2977505688,268921554&fm=58">
+<meta property="og:updated_time" content="2017-11-11T13:38:51.773Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hdu水题(2000-2100)部分1">
+<meta name="twitter:description" content="2001 计算两点距离
+
+Problem Description输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。">
+<meta name="twitter:image" content="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2977505688,268921554&fm=58">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zeefine.coding.me/blog/year/11/11/hdu水题(2000-2100)部分1/"/>
+
+
+
+
+
+  <title>hdu水题(2000-2100)部分1 | Hello Zeefine</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hello Zeefine</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Welcom~</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zeefine.coding.me/blog/year/11/11/hdu水题(2000-2100)部分1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zeefine">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello Zeefine">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hdu水题(2000-2100)部分1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-11T21:38:42+08:00">
+                2017-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/acm/" itemprop="url" rel="index">
+                    <span itemprop="name">acm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>2001 计算两点距离</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p><strong>Input</strong><br>输入数据有多组，每组占一行，由4个实数组成，分别表示x1,y1,x2,y2,数据之间用空格隔开。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行，结果保留两位小数。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>0 0 0 1<br>0 1 1 0</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>1.00<br>1.41</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong><br>两点间距离公式<img src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2977505688,268921554&amp;fm=58" alt="此处输入图片的描述"></p>
+<p>  注意用浮点数类型<br>  printf(“%.2lf\n”,ans);//输出保留两位小数</p>
+<hr>
+<p><strong>完整代码</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    double x1,y1,x2,y2;</div><div class="line">    double ans;</div><div class="line">    while(scanf(&quot;%lf%lf%lf%lf&quot;,&amp;x1,&amp;y1,&amp;x2,&amp;y2) != EOF)</div><div class="line">    &#123;</div><div class="line">        ans=sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));</div><div class="line">        printf(&quot;%.2lf\n&quot;,ans);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>2005 第几天？</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>给定一个日期，输出这个日期是该年的第几天。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据有多组，每组占一行，数据格式为YYYY/MM/DD组成，具体参见sample input ,另外，可以向你确保所有的输入数据是合法的。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行，表示该日期是该年的第几天。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>1985/1/20<br>2006/3/12</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>20<br>71</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong><br>需要判断闰年，如果是闰年2月有29天，否则有28天。</p>
+<blockquote>
+<p>//判断闰年<br>int leapyear(int a)<br>{<br>    if(a%4 == 0 &amp;&amp; a%100 != 0 || a%400 == 0) return 1;<br>    else return 0;<br>}</p>
+</blockquote>
+<p>第几天=1月到输入月份之间天数总和+输入天数。<br>计算过程:如果输入2006/3/12<br>判断是否是闰年，结果=1到2月天数和+12天</p>
+<hr>
+<p><strong>完整代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">int leapyear(int a)</div><div class="line">&#123;</div><div class="line">    if(a%4 == 0 &amp;&amp; a%100 != 0 || a%400 == 0) return 1;</div><div class="line">    else return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int year,month,day,flag;</div><div class="line">    while(scanf(&quot;%d/%d/%d&quot;,&amp;year,&amp;month,&amp;day) != EOF)</div><div class="line">    &#123;</div><div class="line">        int sum=0;</div><div class="line">        flag=leapyear(year);</div><div class="line">        if(month == 1) printf(&quot;%d\n&quot;,day);</div><div class="line">        else&#123;</div><div class="line">            switch(month)//计算1月到输入月份之间所有天数</div><div class="line">            &#123;</div><div class="line">                case 12:</div><div class="line">                 sum+=30;</div><div class="line">                case 11:</div><div class="line">                 sum+=31;</div><div class="line">                case 10:</div><div class="line">                 sum+=30;</div><div class="line">                case 9:</div><div class="line">                 sum+=31;</div><div class="line">                case 8:</div><div class="line">                 sum+=31;</div><div class="line">                case 7:</div><div class="line">                 sum+=30;</div><div class="line">                case 6:</div><div class="line">                 sum+=31;</div><div class="line">                case 5:</div><div class="line">                 sum+=30;</div><div class="line">                case 4:</div><div class="line">                 sum+=31;</div><div class="line">                case 3:</div><div class="line">                 if(flag) sum+=29;</div><div class="line">                 else sum+=28;</div><div class="line">                case 2:</div><div class="line">                 sum+=31;</div><div class="line">            &#125;</div><div class="line">            int ans;</div><div class="line">            ans=sum+day; //1月到输入月份之间天数总和+输入天数</div><div class="line">            printf(&quot;%d\n&quot;,ans);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">	    return 0;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>平方和与立方和</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>给定一段连续的整数，求出他们中所有偶数的平方和以及所有奇数的立方和。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据包含多组测试实例，每组测试实例包含一行，由两个整数m和n组成。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行，应包括两个整数x和y，分别表示该段连续的整数中所有偶数的平方和以及所有奇数的立方和。<br>你可以认为32位整数足以保存结果。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>1 3<br>2 5</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>4 28<br>20 152</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong><br>题目中并未说明输入的x和y大小问题，该段的距离时可能是x-y或y-x<br>利用循环依次判断段中的数为偶数还是奇数</p>
+<hr>
+<p><strong>完整代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int m,n,t;</div><div class="line">    while(scanf(&quot;%d%d&quot;,&amp;m,&amp;n) != EOF)</div><div class="line">    &#123;</div><div class="line">        int sum1=0,sum2=0;</div><div class="line">        if(m&gt;n)&#123;t=m;m=n;n=t;&#125;</div><div class="line">        for(;m&lt;=n;m++)//依次判断段中整数</div><div class="line">        &#123;</div><div class="line">            if(m%2) sum2+=(m*m*m);//奇数</div><div class="line">            else sum1+=(m*m);偶数</div><div class="line">        &#125;</div><div class="line">        printf(&quot;%d %d\n&quot;,sum1,sum2);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>2008 数值统计</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>统计给定的n个数中，负数、零和正数的个数。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据有多组，每组占一行，每行的第一个数是整数n（n&lt;100），表示需要统计的数值的个数，然后是n个实数；如果n=0，则表示输入结束，该行不做处理。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出一行a,b和c，分别表示给定的数据中负数、零和正数的个数。</p>
+<hr>
+<p>###Sample Input</p>
+<blockquote>
+<p>6 0 1 2 3 -1 0<br>5 1 2 3 4 0.5<br>0 </p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>1 2 3<br>0 0 5</p>
+</blockquote>
+<hr>
+<p><strong><em>解题思路</em></strong><br>注意样例中有浮点数，所以要用浮点型<br>每次输入判断即可</p>
+<hr>
+<p><strong><em>完整代码</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int n;</div><div class="line">    double a;</div><div class="line">    while(scanf(&quot;%d&quot;,&amp;n), n != 0)</div><div class="line">    &#123;</div><div class="line">        int x=0,y=0,z=0;</div><div class="line">        while(n--)</div><div class="line">        &#123;</div><div class="line">            scanf(&quot;%lf&quot;,&amp;a);</div><div class="line">            if(a&gt;0) z++;</div><div class="line">            else if(a&lt;0) x++;</div><div class="line">            else y++;</div><div class="line">        &#125;</div><div class="line">        printf(&quot;%d %d %d\n&quot;,x,y,z);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>2009 求数列的和</strong></p>
+<hr>
+<p><strong>Problem Description</strong><br>数列的定义如下：<br>数列的第一项为n，以后各项为前一项的平方根，求数列的前m项的和。</p>
+<hr>
+<p><strong>Input</strong><br>输入数据有多组，每组占一行，由两个整数n（n&lt;10000）和m(m&lt;1000)组成，n和m的含义如前所述。</p>
+<hr>
+<p><strong>Output</strong><br>对于每组输入数据，输出该数列的和，每个测试实例占一行，要求精度保留2位小数。</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>81 4<br>2 2</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>94.73<br>3.41</p>
+</blockquote>
+<hr>
+<p><strong><em>解题思路</em></strong><br>平方根注意使用浮点类型<br>数列A[N]=√A[N-1]</p>
+<hr>
+<p><strong><em>完整代码</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int n,m,i;</div><div class="line">    while(scanf(&quot;%d %d&quot;,&amp;n,&amp;m) != EOF)</div><div class="line">    &#123;</div><div class="line">        double a[m],sum;</div><div class="line">        a[0]=sum=n;</div><div class="line">        for(i=1;i&lt;m;i++)</div><div class="line">        &#123;</div><div class="line">            a[i]=sqrt(a[i-1]);// 数列第i+1项</div><div class="line">            sum+=a[i];// 求和</div><div class="line">        &#125;</div><div class="line">        printf(&quot;%.2f\n&quot;,sum);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/水/" rel="tag"> <i class="fa fa-tag"></i> 水</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/year/11/11/N的阶乘的长度（斯特林近似）/" rel="next" title="N的阶乘的长度（斯特林近似）">
+                <i class="fa fa-chevron-left"></i> N的阶乘的长度（斯特林近似）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="zeefine" />
+            
+              <p class="site-author-name" itemprop="name">zeefine</p>
+              <p class="site-description motion-element" itemprop="description">:p</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zeefine" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zeefineHY@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zeefine</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
