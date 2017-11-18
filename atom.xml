@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zeefine.coding.me/blog/"/>
-  <updated>2017-11-11T14:42:40.572Z</updated>
+  <updated>2017-11-18T08:54:21.962Z</updated>
   <id>https://zeefine.coding.me/blog/</id>
   
   <author>
@@ -14,6 +14,212 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>快速幂取模</title>
+    <link href="https://zeefine.coding.me/blog/year/11/18/%E5%BF%AB%E9%80%9F%E5%B9%82%E5%8F%96%E6%A8%A1/"/>
+    <id>https://zeefine.coding.me/blog/year/11/18/快速幂取模/</id>
+    <published>2017-11-18T08:54:07.480Z</published>
+    <updated>2017-11-18T08:54:21.962Z</updated>
+    
+    <content type="html"><![CDATA[<p>给出3个正整数A B C，求A^B Mod C。</p>
+<p>例如，3 5 8，3^5 Mod 8 = 3。</p>
+<hr>
+<p><strong>Input</strong><br>3个正整数A B C，中间用空格分隔。(1 &lt;= A,B,C &lt;= 10^9)<br><strong>Output</strong><br>输出计算结果</p>
+<hr>
+<p><strong>Input示例</strong></p>
+<blockquote>
+<p>3 5 8</p>
+</blockquote>
+<hr>
+<p><strong>Output示例</strong></p>
+<blockquote>
+<p>3</p>
+</blockquote>
+<hr>
+<p><strong>原理</strong><br>如果求a^b,可以将b转换为二进制数<br>例如<br><img src="http://h.hiphotos.baidu.com/baike/s=103/sign=885b42e39c16fdfadc6cc2ee878d8cea/d0c8a786c9177f3e48bd45c571cf3bc79e3d5668.jpg" alt="此处输入图片的描述"></p>
+<p>  11 = 2³×1 + 2²×0 + 2¹×1 + 2º×1<br>  因此，我们将a¹¹转化为算<img src="http://d.hiphotos.baidu.com/baike/s=95/sign=257afe75a8773912c0268964f919a226/e850352ac65c1038803a760ab3119313b17e89b6.jpg" alt="此处输入图片的描述"></p>
+<p><strong>符合下面公式</strong><br>pow(a,b)=1                  （n=0时）<br>pow(a,b)=pow(x²,n/2)     （n为偶数）<br>pow(a,b)=pow(x²,n/2)*x   （n为奇数）</p>
+<p>( a x b ) % m= a % m x b % m</p>
+<p>算法复杂度O（logn）</p>
+<hr>
+<p><strong>完整代码</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line">__<span class="function">int64 <span class="title">mod_pow</span><span class="params">(__int64 a, __int64 b, __int64 c)</span></span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    __int64 a,b,c,ans;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%I64d %I64d %I64d"</span>,&amp;a,&amp;b,&amp;c);</div><div class="line">    ans=mod_pow(a,b,c);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%I64d\n"</span>,ans);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">__<span class="function">int64 <span class="title">mod_pow</span><span class="params">(__int64 a, __int64 b, __int64 c)</span></span></div><div class="line">&#123;</div><div class="line">    __int64 res=<span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(b&gt;<span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(b &amp; <span class="number">1</span>) res=res*a%c;</div><div class="line">        a=a*a%c;</div><div class="line">        b &gt;&gt;= <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;给出3个正整数A B C，求A^B Mod C。&lt;/p&gt;
+&lt;p&gt;例如，3 5 8，3^5 Mod 8 = 3。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Input&lt;/strong&gt;&lt;br&gt;3个正整数A B C，中间用空格分隔。(1 &amp;lt;= A,B,C &amp;lt;= 10^
+    
+    </summary>
+    
+      <category term="acm" scheme="https://zeefine.coding.me/blog/categories/acm/"/>
+    
+    
+      <category term="数学" scheme="https://zeefine.coding.me/blog/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+      <category term="公式" scheme="https://zeefine.coding.me/blog/tags/%E5%85%AC%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大数加减</title>
+    <link href="https://zeefine.coding.me/blog/year/11/12/%E5%A4%A7%E6%95%B0%E5%8A%A0%E5%87%8F/"/>
+    <id>https://zeefine.coding.me/blog/year/11/12/大数加减/</id>
+    <published>2017-11-12T02:47:14.088Z</published>
+    <updated>2017-11-12T02:47:29.265Z</updated>
+    
+    <content type="html"><![CDATA[<p>给出2个大整数A,B，计算A+B的结果。</p>
+<hr>
+<p><strong>Input</strong><br>第1行：大数A<br>第2行：大数B<br>(A,B的长度 &lt;= 10000 需注意：A B有可能为负数）</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p><strong>Output</strong><br>输出A + B</p>
+<hr>
+<p><strong>Input示例</strong></p>
+<blockquote>
+<p>68932147586<br>468711654886</p>
+</blockquote>
+<hr>
+<p><strong>Output示例</strong></p>
+<blockquote>
+<p>537643802472</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong><br>先用字符数组储存然后<strong>倒序</strong>转化为整数数组，结果输出时倒序输出，遇到0舍去</p>
+<p>加法:进位问题，逢十进一</p>
+<pre><code>//假设第一个数大
+for(i=0;i&lt;len1;i++)
+    {
+        c[i]+=a[i]+b[i];
+        if(c[i]&gt;9)
+            {
+                c[i+1]+=c[i]/10;
+                c[i]%=10;
+            }
+</code></pre><p>减法:退位问题，不够减时向前借位</p>
+<pre><code>//假设第一个数大
+for(i=0;i&lt;k;i++)
+    {
+        if(a[i]-b[i]&lt;0)
+        {
+            c[i]+=10+a[i]-b[i];
+            a[i+1]--;
+        }
+        else
+            c[i]+=a[i]-b[i];
+    }
+</code></pre><p><strong>在做减法时考虑到最后结果，分为大数减小数，小数减大数，两数相等3种情况</strong></p>
+<pre><code>int compare(char *a,char *b)
+{
+    int len1,len2,i;
+    char c[MAX];
+    len1=strlen(a);
+    len2=strlen(b);
+    if(strcmp(a,b)&lt;0 &amp;&amp; len1-1&gt;len2) return 1;//小数减大数
+if(strcmp(a,b)&lt;0 &amp;&amp; len1-1&lt;len2) return 2;//大数减小数
+if(strcmp(a,b)&lt;0 &amp;&amp; len1-1==len2)
+{
+    for(i=0;i&lt;len2;i++)
+        c[i]=a[i+1];
+    if(strcmp(c,b)&lt;0) return 2;//大数减小数
+    else if(strcmp(c,b)==0) return 0;
+    else return 1;//小数减大数
+}
+
+if(strcmp(a,b)&gt;0 &amp;&amp; len1&gt;len2-1) return 4;//大数减小数
+if(strcmp(a,b)&gt;0 &amp;&amp; len1&lt;len2-1) return 3;//小数减大数
+if(strcmp(a,b)&gt;0 &amp;&amp; len1==len2-1)
+ {
+    for(i=0;i&lt;len1;i++)
+        c[i]=b[i+1];
+    if(strcmp(a,c)&gt;0) return 4;//大数减小数
+    else if(strcmp(a,c) == 0) return 0;
+    else return 3;//小数减大数
+ }
+}
+</code></pre><p>##完整代码<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 10010</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">char</span> *b)</span></span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> s1[MAX],s2[MAX],s3[MAX];</div><div class="line">    <span class="keyword">int</span> a[MAX],b[MAX],c[MAX];</div><div class="line">    <span class="keyword">int</span> len1,len2,i,k;</div><div class="line">    <span class="keyword">int</span> flag=<span class="number">0</span>,mk=<span class="number">5</span>;</div><div class="line">    <span class="built_in">memset</span>(a,<span class="number">0</span>,<span class="keyword">sizeof</span>(a));</div><div class="line">    <span class="built_in">memset</span>(b,<span class="number">0</span>,<span class="keyword">sizeof</span>(b));</div><div class="line">    <span class="built_in">memset</span>(c,<span class="number">0</span>,<span class="keyword">sizeof</span>(c));</div><div class="line"></div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%s%s"</span>,s1,s2);</div><div class="line">    len1=<span class="built_in">strlen</span>(s1);</div><div class="line">    len2=<span class="built_in">strlen</span>(s2);</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span>(s1[<span class="number">0</span>] != <span class="string">'-'</span> &amp;&amp; s2[<span class="number">0</span>] != <span class="string">'-'</span>)</div><div class="line">&#123;</div><div class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</div><div class="line">    a[len1<span class="number">-1</span>-i]=s1[i]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2;i++)</div><div class="line">    b[len2<span class="number">-1</span>-i]=s2[i]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">if</span>(len1&gt;=len2) k=len1;</div><div class="line">    <span class="keyword">else</span> k=len2;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;k;i++)</div><div class="line">    &#123;</div><div class="line">        c[i]+=a[i]+b[i];</div><div class="line">        <span class="keyword">if</span>(c[i]&gt;<span class="number">9</span>)</div><div class="line">            &#123;</div><div class="line">                c[i+<span class="number">1</span>]+=c[i]/<span class="number">10</span>;</div><div class="line">                c[i]%=<span class="number">10</span>;</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(i=MAX<span class="number">-1</span>; i&gt;<span class="number">0</span>; i--)</div><div class="line">        <span class="keyword">if</span>(c[i] != <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">for</span>(;i&gt;=<span class="number">0</span>;i--)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,c[i]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line">    flag=<span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span>(s1[<span class="number">0</span>] == <span class="string">'-'</span> &amp;&amp; s2[<span class="number">0</span>] == <span class="string">'-'</span>)</div><div class="line">&#123;</div><div class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1<span class="number">-1</span>;i++)</div><div class="line">     a[len1<span class="number">-2</span>-i]=s1[i+<span class="number">1</span>]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2<span class="number">-1</span>;i++)</div><div class="line">     b[len2<span class="number">-2</span>-i]=s2[i+<span class="number">1</span>]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line">     <span class="keyword">if</span>(len1&gt;=len2) k=len1;</div><div class="line">    <span class="keyword">else</span> k=len2;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;k<span class="number">-1</span>;i++)</div><div class="line">    &#123;</div><div class="line">        c[i]+=a[i]+b[i];</div><div class="line">        <span class="keyword">if</span>(c[i]&gt;<span class="number">9</span>)</div><div class="line">            &#123;</div><div class="line">                c[i+<span class="number">1</span>]+=c[i]/<span class="number">10</span>;</div><div class="line">                c[i]%=<span class="number">10</span>;</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(i=MAX<span class="number">-1</span>; i&gt;<span class="number">0</span>;i--)</div><div class="line">        <span class="keyword">if</span>(c[i] != <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"-"</span>);</div><div class="line">    <span class="keyword">for</span>(;i&gt;=<span class="number">0</span>;i--)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,c[i]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line">    flag=<span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(len1&gt;=len2) k=len1;</div><div class="line"><span class="keyword">else</span> k=len2;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(flag == <span class="number">0</span>)&#123;</div><div class="line">mk=compare(s1,s2);</div><div class="line"></div><div class="line"><span class="keyword">if</span>(mk==<span class="number">1</span>)<span class="comment">//小数减大数</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1<span class="number">-1</span>;i++)</div><div class="line">        a[len1<span class="number">-2</span>-i]=s1[i+<span class="number">1</span>]-<span class="string">'0'</span>;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2;i++)</div><div class="line">        b[len2<span class="number">-1</span>-i]=s2[i]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;k<span class="number">-1</span>;i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(a[i]-b[i]&lt;<span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            c[i]+=<span class="number">10</span>+a[i]-b[i];</div><div class="line">            a[i+<span class="number">1</span>]--;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            c[i]+=a[i]-b[i];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"-"</span>);</div><div class="line">    <span class="keyword">for</span>(i=MAX<span class="number">-1</span>;i&gt;<span class="number">0</span>;i--)</div><div class="line">        <span class="keyword">if</span>(c[i] != <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">for</span>(;i&gt;=<span class="number">0</span>;i--)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,c[i]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(mk==<span class="number">2</span>)<span class="comment">//大数减小数</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2;i++)</div><div class="line">        a[len2<span class="number">-1</span>-i]=s2[i]-<span class="string">'0'</span>;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1<span class="number">-1</span>;i++)</div><div class="line">        b[len1<span class="number">-2</span>-i]=s1[i+<span class="number">1</span>]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line">     <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;k;i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(a[i]-b[i]&lt;<span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            c[i]+=<span class="number">10</span>+a[i]-b[i];</div><div class="line">            a[i+<span class="number">1</span>]--;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            c[i]+=a[i]-b[i];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=MAX<span class="number">-1</span>;i&gt;<span class="number">0</span>;i--)</div><div class="line">        <span class="keyword">if</span>(c[i] != <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">for</span>(;i&gt;=<span class="number">0</span>;i--)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,c[i]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(mk==<span class="number">3</span>)<span class="comment">//小数减大数</span></div><div class="line">&#123;</div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2<span class="number">-1</span>;i++)</div><div class="line">    a[len2<span class="number">-2</span>-i]=s2[i+<span class="number">1</span>]-<span class="string">'0'</span>;</div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</div><div class="line">    b[len1<span class="number">-1</span>-i]=s1[i]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;k<span class="number">-1</span>;i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(a[i]-b[i]&lt;<span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            c[i]+=<span class="number">10</span>+a[i]-b[i];</div><div class="line">            a[i+<span class="number">1</span>]--;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            c[i]+=a[i]-b[i];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"-"</span>);</div><div class="line">    <span class="keyword">for</span>(i=MAX<span class="number">-1</span>;i&gt;<span class="number">0</span>;i--)</div><div class="line">        <span class="keyword">if</span>(c[i] != <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">for</span>(;i&gt;=<span class="number">0</span>;i--)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,c[i]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(mk==<span class="number">4</span>)<span class="comment">//大数减小数</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</div><div class="line">        a[len1<span class="number">-1</span>-i]=s1[i]-<span class="string">'0'</span>;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2<span class="number">-1</span>;i++)</div><div class="line">        b[len2<span class="number">-2</span>-i]=s2[i+<span class="number">1</span>]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;k<span class="number">-1</span>;i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(a[i]-b[i]&lt;<span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            c[i]+=<span class="number">10</span>+a[i]-b[i];</div><div class="line">            a[i+<span class="number">1</span>]--;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            c[i]+=a[i]-b[i];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=MAX<span class="number">-1</span>;i&gt;<span class="number">0</span>;i--)</div><div class="line">        <span class="keyword">if</span>(c[i] != <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">for</span>(;i&gt;=<span class="number">0</span>;i--)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,c[i]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(mk==<span class="number">0</span>)</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"0\n"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">char</span> *b)</span></span></div><div class="line">&#123;</div><div class="line"><span class="keyword">int</span> len1,len2,i;</div><div class="line"><span class="keyword">char</span> c[MAX];</div><div class="line">len1=<span class="built_in">strlen</span>(a);</div><div class="line">len2=<span class="built_in">strlen</span>(b);</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,b)&lt;<span class="number">0</span> &amp;&amp; len1<span class="number">-1</span>&gt;len2) <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">//小数减大数</span></div><div class="line"><span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,b)&lt;<span class="number">0</span> &amp;&amp; len1<span class="number">-1</span>&lt;len2) <span class="keyword">return</span> <span class="number">2</span>;<span class="comment">//大数减小数</span></div><div class="line"><span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,b)&lt;<span class="number">0</span> &amp;&amp; len1<span class="number">-1</span>==len2)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2;i++)</div><div class="line">        c[i]=a[i+<span class="number">1</span>];</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">strcmp</span>(c,b)&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">2</span>;<span class="comment">//大数减小数</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">strcmp</span>(c,b)==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">//小数减大数</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,b)&gt;<span class="number">0</span> &amp;&amp; len1&gt;len2<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">4</span>;<span class="comment">//大数减小数</span></div><div class="line"><span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,b)&gt;<span class="number">0</span> &amp;&amp; len1&lt;len2<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">3</span>;<span class="comment">//小数减大数</span></div><div class="line"><span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,b)&gt;<span class="number">0</span> &amp;&amp; len1==len2<span class="number">-1</span>)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</div><div class="line">        c[i]=b[i+<span class="number">1</span>];</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,c)&gt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">4</span>;<span class="comment">//大数减小数</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">strcmp</span>(a,c) == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">3</span>;<span class="comment">//小数减大数</span></div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;给出2个大整数A,B，计算A+B的结果。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Input&lt;/strong&gt;&lt;br&gt;第1行：大数A&lt;br&gt;第2行：大数B&lt;br&gt;(A,B的长度 &amp;lt;= 10000 需注意：A B有可能为负数）&lt;/p&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="acm" scheme="https://zeefine.coding.me/blog/categories/acm/"/>
+    
+    
+      <category term="模拟" scheme="https://zeefine.coding.me/blog/tags/%E6%A8%A1%E6%8B%9F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大数乘法</title>
+    <link href="https://zeefine.coding.me/blog/year/11/12/%E5%A4%A7%E6%95%B0%E4%B9%98%E6%B3%95/"/>
+    <id>https://zeefine.coding.me/blog/year/11/12/大数乘法/</id>
+    <published>2017-11-12T02:40:54.784Z</published>
+    <updated>2017-11-12T02:41:12.988Z</updated>
+    
+    <content type="html"><![CDATA[<p>给出2个大整数A,B，计算A*B的结果。</p>
+<hr>
+<p><strong>Input</strong><br>第1行：大数A<br>第2行：大数B<br>(A,B的长度 &lt;= 1000，A,B &gt;= 0）</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p><strong>Output</strong><br>输出A * B</p>
+<hr>
+<p><strong>Input示例</strong></p>
+<blockquote>
+<p>123456<br>234567</p>
+</blockquote>
+<hr>
+<p><strong>Output示例</strong></p>
+<blockquote>
+<p>28958703552</p>
+</blockquote>
+<hr>
+<p><strong>解题思路</strong></p>
+<p>倒序储存，完成下面过程即可<br><strong>123x31=3813</strong></p>
+<pre><code>  3 2 1
+x   1 3
+-------------
+  3 9 6 3
++   2 1
+-------------
+  3 1 8 3
+</code></pre><hr>
+<p><strong>核心代码</strong></p>
+<pre><code>for(i=0;i&lt;len1;i++)
+        for(j=0;j&lt;len2;j++)
+        {
+            c[i+j]+=a[i]*b[j];
+            if(c[i+j]&gt;9)
+            {
+                c[i+j+1]+=c[i+j]/10;
+                c[i+j]%=10;
+            }
+        }
+</code></pre><hr>
+<p><strong>完整代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 10010</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> s1[MAX],s2[MAX];</div><div class="line">    <span class="keyword">int</span> a[MAX],b[MAX];</div><div class="line">    <span class="keyword">int</span> len1,len2,i,j;</div><div class="line">    <span class="built_in">memset</span>(a,<span class="number">0</span>,<span class="keyword">sizeof</span>(a));</div><div class="line">    <span class="built_in">memset</span>(b,<span class="number">0</span>,<span class="keyword">sizeof</span>(b));</div><div class="line"></div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%s%s"</span>,s1,s2);</div><div class="line">    len1=<span class="built_in">strlen</span>(s1);</div><div class="line">    len2=<span class="built_in">strlen</span>(s2);</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</div><div class="line">        a[len1<span class="number">-1</span>-i]=s1[i]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len2;i++)</div><div class="line">        b[len2<span class="number">-1</span>-i]=s2[i]-<span class="string">'0'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> c[MAX];</div><div class="line">    <span class="built_in">memset</span>(c,<span class="number">0</span>,<span class="keyword">sizeof</span>(c));</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</div><div class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;len2;j++)</div><div class="line">        &#123;</div><div class="line">            c[i+j]+=a[i]*b[j];</div><div class="line">            <span class="keyword">if</span>(c[i+j]&gt;<span class="number">9</span>)</div><div class="line">            &#123;</div><div class="line">                c[i+j+<span class="number">1</span>]+=c[i+j]/<span class="number">10</span>;</div><div class="line">                c[i+j]%=<span class="number">10</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=MAX<span class="number">-1</span>;i&gt;<span class="number">0</span>;i--)</div><div class="line">        <span class="keyword">if</span>(c[i] != <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">for</span>(;i&gt;=<span class="number">0</span>;i--)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,c[i]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;给出2个大整数A,B，计算A*B的结果。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Input&lt;/strong&gt;&lt;br&gt;第1行：大数A&lt;br&gt;第2行：大数B&lt;br&gt;(A,B的长度 &amp;lt;= 1000，A,B &amp;gt;= 0）&lt;/p&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="acm" scheme="https://zeefine.coding.me/blog/categories/acm/"/>
+    
+    
+      <category term="模拟" scheme="https://zeefine.coding.me/blog/tags/%E6%A8%A1%E6%8B%9F/"/>
+    
+  </entry>
   
   <entry>
     <title>hdu水题(2000-2100)部分2</title>
