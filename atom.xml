@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zeefine.coding.me/blog/"/>
-  <updated>2017-11-18T08:54:21.962Z</updated>
+  <updated>2017-11-27T10:32:28.580Z</updated>
   <id>https://zeefine.coding.me/blog/</id>
   
   <author>
@@ -17,13 +17,14 @@
   
   <entry>
     <title>快速幂取模</title>
-    <link href="https://zeefine.coding.me/blog/year/11/18/%E5%BF%AB%E9%80%9F%E5%B9%82%E5%8F%96%E6%A8%A1/"/>
-    <id>https://zeefine.coding.me/blog/year/11/18/快速幂取模/</id>
-    <published>2017-11-18T08:54:07.480Z</published>
-    <updated>2017-11-18T08:54:21.962Z</updated>
+    <link href="https://zeefine.coding.me/blog/year/11/27/%E5%BF%AB%E9%80%9F%E5%B9%82%E5%8F%96%E6%A8%A1/"/>
+    <id>https://zeefine.coding.me/blog/year/11/27/快速幂取模/</id>
+    <published>2017-11-27T10:32:10.781Z</published>
+    <updated>2017-11-27T10:32:28.580Z</updated>
     
     <content type="html"><![CDATA[<p>给出3个正整数A B C，求A^B Mod C。</p>
 <p>例如，3 5 8，3^5 Mod 8 = 3。</p>
+<a id="more"></a>
 <hr>
 <p><strong>Input</strong><br>3个正整数A B C，中间用空格分隔。(1 &lt;= A,B,C &lt;= 10^9)<br><strong>Output</strong><br>输出计算结果</p>
 <hr>
@@ -50,8 +51,6 @@
     
       &lt;p&gt;给出3个正整数A B C，求A^B Mod C。&lt;/p&gt;
 &lt;p&gt;例如，3 5 8，3^5 Mod 8 = 3。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;Input&lt;/strong&gt;&lt;br&gt;3个正整数A B C，中间用空格分隔。(1 &amp;lt;= A,B,C &amp;lt;= 10^
     
     </summary>
     
