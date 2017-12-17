@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="栈,STL,hdu," />
 
 
 
@@ -81,16 +81,19 @@
 
 
 
-<meta name="description" content=":p">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="https://zeefine.coding.me/blog/tags/index.html">
+<meta name="description" content="Problem DescriptionGiven a parentheses sequence consist of ‘(‘ and ‘)’, a modify can filp a parentheses, changing ‘(‘ to ‘)’ or ‘)’ to ‘(‘.
+If we want every not empty substring of this parentheses seq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="括号匹配HDU5479">
+<meta property="og:url" content="https://zeefine.coding.me/blog/year/12/16/括号匹配/index.html">
 <meta property="og:site_name" content="Hello Zeefine">
-<meta property="og:description" content=":p">
-<meta property="og:updated_time" content="2017-11-05T14:14:03.479Z">
+<meta property="og:description" content="Problem DescriptionGiven a parentheses sequence consist of ‘(‘ and ‘)’, a modify can filp a parentheses, changing ‘(‘ to ‘)’ or ‘)’ to ‘(‘.
+If we want every not empty substring of this parentheses seq">
+<meta property="og:updated_time" content="2017-12-17T02:23:59.568Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-<meta name="twitter:description" content=":p">
+<meta name="twitter:title" content="括号匹配HDU5479">
+<meta name="twitter:description" content="Problem DescriptionGiven a parentheses sequence consist of ‘(‘ and ‘)’, a modify can filp a parentheses, changing ‘(‘ to ‘)’ or ‘)’ to ‘(‘.
+If we want every not empty substring of this parentheses seq">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://zeefine.coding.me/blog/tags/"/>
+  <link rel="canonical" href="https://zeefine.coding.me/blog/year/12/16/括号匹配/"/>
 
 
 
 
 
-  <title>tags | Hello Zeefine</title>
+  <title>括号匹配HDU5479 | Hello Zeefine</title>
   
 
 
@@ -241,40 +244,193 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zeefine.coding.me/blog/year/12/16/括号匹配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zeefine">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello Zeefine">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                目前共计 7 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/STL/" style="font-size: 12px; color: #ccc">STL</a> <a href="/tags/hdu/" style="font-size: 12px; color: #ccc">hdu</a> <a href="/tags/公式/" style="font-size: 30px; color: #111">公式</a> <a href="/tags/数学/" style="font-size: 30px; color: #111">数学</a> <a href="/tags/栈/" style="font-size: 12px; color: #ccc">栈</a> <a href="/tags/模拟/" style="font-size: 21px; color: #6f6f6f">模拟</a> <a href="/tags/水/" style="font-size: 21px; color: #6f6f6f">水</a>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">括号匹配HDU5479</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-16T19:58:58+08:00">
+                2017-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/acm/" itemprop="url" rel="index">
+                    <span itemprop="name">acm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p><strong>Problem Description</strong><br>Given a parentheses sequence consist of ‘(‘ and ‘)’, a modify can filp a parentheses, changing ‘(‘ to ‘)’ or ‘)’ to ‘(‘.</p>
+<p>If we want every not empty <b>substring</b> of this parentheses sequence not to be “paren-matching”, how many times at least to modify this parentheses sequence?</p>
+<p>For example, “()”,”(())”,”()()” are “paren-matching” strings, but “((“, “)(“, “((()” are not.</p>
+<hr>
+<p><strong>Input</strong><br>The first line of the input is a integer T, meaning that there are T test cases.</p>
+<p>Every test cases contains a parentheses sequence S only consists of ‘(‘ and ‘)’.</p>
+<p>1≤|S|≤1,000</p>
+<hr>
+<p><strong>Output</strong><br>For every test case output the least number of modification.</p>
+<hr>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>3<br>()<br>((((<br>(())</p>
+</blockquote>
+<hr>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>1<br>0<br>2</p>
+</blockquote>
+<hr>
+<p><strong>题意</strong>：给你一组只由’(‘和’)’组成的字符串，你可以改变左右括号，问你需要改几个使左右括号不匹配。</p>
+<p><strong>解题思路</strong>：其实就是找原来有几组括号匹配，把这几组改了就不匹配了。<br>熟悉下STL中栈的使用。</p>
+<hr>
+<p><strong>AC代码</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> T;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%*c"</span>, &amp;T);</div><div class="line">    <span class="keyword">while</span>(T--)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">char</span> s[<span class="number">1010</span>];</div><div class="line">        gets(s);</div><div class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt;q;</div><div class="line">        <span class="keyword">int</span> cnt=<span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">strlen</span>(s); i++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(q.empty()) q.push(s[i]);</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                <span class="keyword">char</span> a=q.top();</div><div class="line">                <span class="keyword">if</span>(a == <span class="string">'('</span> &amp;&amp; s[i] == <span class="string">')'</span>)</div><div class="line">                &#123;</div><div class="line">                    cnt++;</div><div class="line">                    q.pop();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> q.push(s[i]);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,cnt);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/栈/" rel="tag"> <i class="fa fa-tag"></i> 栈</a>
+          
+            <a href="/tags/STL/" rel="tag"> <i class="fa fa-tag"></i> STL</a>
+          
+            <a href="/tags/hdu/" rel="tag"> <i class="fa fa-tag"></i> hdu</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/year/11/27/快速幂取模/" rel="next" title="快速幂取模">
+                <i class="fa fa-chevron-left"></i> 快速幂取模
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
