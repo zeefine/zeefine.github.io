@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/space-grotesk';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  immersive?: boolean;
+}
+
+const { title, description = '关于 AI、技术与创造的个人博客。', immersive = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f4f6f2" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('fine-theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch { /* System appearance remains available without storage. */ }
+    </script>
+  </head>
+  <body class:list={['antialiased', { immersive }]}>
+    <a class="skip-link" href="#main">跳到正文</a>
+    {immersive ? <slot /> : (
+      <div class="reading-shell">
+        <header class="reading-header">
+          <a href="/" class="wordmark" aria-label="Fine 博客首页">fine<span>.</span></a>
+          <div class="reading-actions"><a href="/blog/">文章归档</a><ThemeToggle /></div>
+        </header>
+        <main id="main"><slot /></main>
+        <footer class="reading-footer">关于 AI、技术与创造。<a href="/">回到首页</a></footer>
+      </div>
+    )}
+    <script>
+      import '../scripts/theme';
+    </script>
+  </body>
+</html>

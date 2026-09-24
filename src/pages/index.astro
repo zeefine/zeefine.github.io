@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import '../styles/home.css';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const latest = posts[0];
+const latestUrl = latest ? `/blog/${latest.id}/` : '/blog/';
+---
+
+<BaseLayout title="Fine · Stay Curious" immersive>
+  <div class="home-shell">
+    <div class="softlight" aria-hidden="true"><div class="light-wash wash-sage"></div><div class="light-wash wash-sun"></div><div class="light-wash wash-mist"></div></div>
+    <header class="home-header page-width">
+      <a class="wordmark" href="/" aria-label="Fine 博客首页">fine<span>.</span></a>
+      <div class="header-end">
+        <div class="header-actions" id="home-navigation">
+          <nav class="home-nav" aria-label="主导航">
+            <a href="/" aria-current="page">首页</a>
+            <a href="/blog/">文章</a>
+          </nav>
+        </div>
+        <ThemeToggle />
+        <button class="menu-toggle" aria-controls="home-navigation" aria-expanded="false" aria-label="打开导航" hidden><span></span><span></span></button>
+      </div>
+    </header>
+    <main id="main" class="page-width">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <h1 id="hero-title" lang="en">
+            <span class="hero-title-line">Stay Curious.</span>
+            <span class="hero-title-line">Build What's Next.</span>
+          </h1>
+          <p class="hero-copy">在这里，记录关于 AI、技术与创造的思考。<br />把日常的好奇，变成具体的尝试。<br />也把每一次探索，留给未来的自己。</p>
+          <a class="primary-cta" href={latestUrl}><span>{latest ? '开始阅读' : '浏览文章'}</span><span aria-hidden="true">↗</span></a>
+        </div>
+        <button class="motion-control" type="button" hidden>暂停柔光</button>
+      </section>
+      <section class="latest-writing" aria-labelledby="writing-title">
+        <div class="section-heading"><h2 id="writing-title">最新文章</h2><a href="/blog/">文章归档 <span aria-hidden="true">↗</span></a></div>
+        {posts.length ? <div class="post-previews">
+          {posts.slice(0, 3).map((post) => <article class="post-preview">
+            <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10).replaceAll('-', '.')}</time>
+            <div class="post-summary"><h3><a href={`/blog/${post.id}/`}>{post.data.title}<span class="post-arrow" aria-hidden="true">↗</span></a></h3><p>{post.data.description}</p></div>
+          </article>)}
+        </div> : <p class="empty-posts">第一篇记录正在酝酿中。</p>}
+      </section>
+    </main>
+    <footer class="home-footer page-width"><span>关于 AI、技术与创造。</span><a href="/blog/">文章归档</a></footer>
+  </div>
+  <script>
+    import '../scripts/home';
+  </script>
+</BaseLayout>

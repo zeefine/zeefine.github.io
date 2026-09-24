@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout title="文章 · Fine">
+  <h1 class="article-title">思考与记录</h1>
+  <p class="archive-intro">关于 AI、技术与创造。把每一次探索，留在这里。</p>
+  <ul class="archive-list">
+    {posts.map((post) => <li>
+      <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>
+      <h2><a href={`/blog/${post.id}/`}>{post.data.title}<span aria-hidden="true">↗</span></a></h2>
+      <p>{post.data.description}</p>
+    </li>)}
+  </ul>
+  {posts.length === 0 && <p class="archive-intro">第一篇记录正在酝酿中。</p>}
+</BaseLayout>
