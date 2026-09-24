@@ -1,6 +1,7 @@
 .home-shell { position: relative; isolation: isolate; overflow: clip; min-height: 100dvh; }
 .page-width { width: min(1120px, calc(100% - 112px)); margin-inline: auto; position: relative; z-index: 1; }
 .softlight { position: absolute; inset: 0 0 auto; height: 790px; overflow: hidden; pointer-events: none; z-index: 0; mask-image: linear-gradient(to bottom, #000 62%, transparent); }
+.light-follow { position: absolute; inset: 0; }
 .light-wash { position: absolute; border-radius: 50%; animation-play-state: paused; }
 .wash-sage { width: 850px; height: 700px; right: -160px; top: -150px; background: radial-gradient(ellipse, var(--sage-light) 0%, transparent 68%); opacity: .72; transform: rotate(-22deg); }
 .wash-sun { width: 740px; height: 570px; right: -300px; top: 100px; background: radial-gradient(ellipse, var(--sun-light) 0%, transparent 70%); opacity: .75; }
@@ -43,9 +44,10 @@
 .menu-open .menu-toggle span:first-child { transform: translateY(3px) rotate(45deg); }
 .menu-open .menu-toggle span:last-child { transform: translateY(-3px) rotate(-45deg); }
 @media (prefers-reduced-motion: no-preference) {
-  .light-wash { animation: light-drift 22s ease-in-out infinite alternate; animation-play-state: paused; }
-  .wash-sun { animation-name: sun-drift; animation-duration: 24s; animation-delay: -12s; }
-  .wash-mist { animation-duration: 20s; animation-direction: alternate-reverse; animation-delay: -8s; }
+  /* Independent loops keep the light alive after the pointer-follow layer settles. */
+  .light-wash { animation: light-drift 16s ease-in-out -5s infinite; animation-play-state: paused; }
+  .wash-sun { animation-name: sun-drift; animation-duration: 19s; animation-delay: -11s; }
+  .wash-mist { animation-duration: 17s; animation-direction: reverse; animation-delay: -3s; }
   .motion-running .light-wash { animation-play-state: running; }
   .hero-title-line { animation: title-arrive 1000ms cubic-bezier(.22, .61, .36, 1) both; }
   .hero-title-line + .hero-title-line { animation-delay: 300ms; }
@@ -55,8 +57,18 @@
   .menu-toggle span { transition: transform 180ms ease; }
 }
 @keyframes title-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes light-drift { from { transform: translate(-45px, -30px) rotate(-12deg) scale(1); } to { transform: translate(55px, 40px) rotate(8deg) scale(1.08); } }
-@keyframes sun-drift { from { transform: translate(35px, -35px) scale(.95); } to { transform: translate(-55px, 35px) scale(1.06); } }
+@keyframes light-drift {
+  0%, 100% { transform: translate(-60px, -15px) rotate(-12deg) scale(1); }
+  25% { transform: translate(0, -55px) rotate(-3deg) scale(1.04); }
+  50% { transform: translate(60px, 10px) rotate(8deg) scale(1.08); }
+  75% { transform: translate(5px, 55px) rotate(-3deg) scale(1.04); }
+}
+@keyframes sun-drift {
+  0%, 100% { transform: translate(45px, -30px) scale(.95); }
+  25% { transform: translate(-15px, -55px) scale(1.01); }
+  50% { transform: translate(-65px, 25px) scale(1.06); }
+  75% { transform: translate(5px, 60px) scale(1.01); }
+}
 @media (max-width: 1023px) {
   .page-width { width: calc(100% - 72px); }
   .hero { min-height: 510px; padding-top: 70px; }

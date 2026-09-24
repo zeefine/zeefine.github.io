@@ -39,11 +39,77 @@ if (header && menu && toggle) {
 
 const motionControl = document.querySelector<HTMLButtonElement>('.motion-control');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+const softlight = document.querySelector<HTMLElement>('.softlight');
+const lightLayers = Array.from(document.querySelectorAll<HTMLElement>('.light-follow'));
+const followStrengths = [.65, .45, .8];
+let following = false;
+let followFrame = 0;
+let lastFrameTime = 0;
+let targetX = 0;
+let targetY = 0;
+let currentX = 0;
+let currentY = 0;
+
+const drawFollow = () => {
+  lightLayers.forEach((layer, index) => {
+    const strength = followStrengths[index] ?? .65;
+    layer.style.transform = `translate3d(${currentX * strength}px, ${currentY * strength}px, 0)`;
+  });
+};
+const animateFollow = (time: number) => {
+  // Time-based damping keeps the same gentle response on different refresh rates.
+  const easing = 1 - Math.exp(-Math.min(time - lastFrameTime, 64) / 420);
+  lastFrameTime = time;
+  currentX += (targetX - currentX) * easing;
+  currentY += (targetY - currentY) * easing;
+  const settled = Math.abs(targetX - currentX) < .1 && Math.abs(targetY - currentY) < .1;
+  if (settled) { currentX = targetX; currentY = targetY; }
+  drawFollow();
+  followFrame = settled ? 0 : requestAnimationFrame(animateFollow);
+};
+const moveFollow = (x: number, y: number) => {
+  if (!following) return;
+  targetX = x;
+  targetY = y;
+  if (!followFrame) {
+    lastFrameTime = performance.now();
+    followFrame = requestAnimationFrame(animateFollow);
+  }
+};
+document.addEventListener('pointermove', (event) => {
+  if (!following || event.pointerType !== 'mouse' || !softlight) return;
+  const bounds = softlight.getBoundingClientRect();
+  if (event.clientY < bounds.top || event.clientY > bounds.bottom) {
+    moveFollow(0, 0);
+    return;
+  }
+  // Pull the existing upper-right light field toward the pointer in pixels.
+  // A small normalized offset was imperceptible against these broad gradients.
+  moveFollow(
+    Math.max(0, Math.min(bounds.width, event.clientX - bounds.left)) - bounds.width * .8,
+    Math.max(0, Math.min(bounds.height, event.clientY - bounds.top)) - bounds.height * .4,
+  );
+}, { passive: true });
+document.documentElement.addEventListener('pointerleave', () => moveFollow(0, 0));
+window.addEventListener('blur', () => moveFollow(0, 0));
+window.addEventListener('resize', () => moveFollow(0, 0));
+
 let manuallyPaused = false;
 try { manuallyPaused = sessionStorage.getItem('fine-motion-paused') === 'true'; } catch { /* Motion controls work without storage. */ }
 
 const syncMotion = () => {
-  document.documentElement.classList.toggle('motion-running', !reducedMotion.matches && !manuallyPaused && !document.hidden);
+  const running = !reducedMotion.matches && !manuallyPaused && !document.hidden;
+  document.documentElement.classList.toggle('motion-running', running);
+  following = running && finePointer.matches && lightLayers.length > 0;
+  cancelAnimationFrame(followFrame);
+  followFrame = 0;
+  if (reducedMotion.matches || !finePointer.matches) {
+    targetX = targetY = currentX = currentY = 0;
+    drawFollow();
+  } else if (following) {
+    moveFollow(0, 0);
+  }
   if (motionControl) {
     motionControl.hidden = reducedMotion.matches;
     motionControl.textContent = manuallyPaused ? '播放柔光' : '暂停柔光';
@@ -56,5 +122,6 @@ motionControl?.addEventListener('click', () => {
   syncMotion();
 });
 reducedMotion.addEventListener('change', syncMotion);
+finePointer.addEventListener('change', syncMotion);
 document.addEventListener('visibilitychange', syncMotion);
 syncMotion();
