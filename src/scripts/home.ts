@@ -1,3 +1,5 @@
+import { createSoftlightMotion } from './softlight';
+
 const header = document.querySelector<HTMLElement>('.home-header');
 const menu = document.querySelector<HTMLElement>('#home-navigation');
 const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
@@ -41,6 +43,7 @@ const motionControl = document.querySelector<HTMLButtonElement>('.motion-control
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
 const softlight = document.querySelector<HTMLElement>('.softlight');
+const softlightMotion = createSoftlightMotion(softlight);
 const lightLayers = Array.from(document.querySelectorAll<HTMLElement>('.light-follow'));
 const followStrengths = [.65, .45, .8];
 let following = false;
@@ -100,6 +103,7 @@ try { manuallyPaused = sessionStorage.getItem('fine-motion-paused') === 'true'; 
 
 const syncMotion = () => {
   const running = !reducedMotion.matches && !manuallyPaused && !document.hidden;
+  softlightMotion.sync(running, reducedMotion.matches);
   document.documentElement.classList.toggle('motion-running', running);
   following = running && finePointer.matches && lightLayers.length > 0;
   cancelAnimationFrame(followFrame);
