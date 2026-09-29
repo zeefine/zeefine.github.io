@@ -1,0 +1,44 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
+import pauseIcon from '@phosphor-icons/core/assets/light/pause-light.svg?raw';
+import playIcon from '@phosphor-icons/core/assets/light/play-light.svg?raw';
+import '../styles/home.css';
+
+interface Props {
+  current: 'home' | 'blog';
+}
+const { current } = Astro.props;
+---
+
+<div class="home-shell">
+  <div class="softlight" aria-hidden="true">
+    <div class="light-follow"><div class="light-wash wash-sage"></div></div>
+    <div class="light-follow"><div class="light-wash wash-sun"></div></div>
+    <div class="light-follow"><div class="light-wash wash-mist"></div></div>
+  </div>
+  <header class="home-header page-width">
+    <a class="wordmark" href="/" aria-label="Fine 博客首页">fine<span>.</span></a>
+    <div class="header-end">
+      <div class="header-actions" id="home-navigation">
+        <nav class="home-nav" aria-label="主导航">
+          <a href="/" aria-current={current === 'home' ? 'page' : undefined}>首页</a>
+          <a href="/blog/" aria-current={current === 'blog' ? 'page' : undefined}>文章</a>
+        </nav>
+      </div>
+      <div class="header-tools">
+        <ThemeToggle />
+        <button class="motion-control tool-button" type="button" aria-label="暂停背景柔光动效" title="暂停背景柔光动效" hidden>
+          <span class="link-icon" data-motion-icon="pause" aria-hidden="true" set:html={pauseIcon} />
+          <span class="link-icon" data-motion-icon="play" aria-hidden="true" hidden set:html={playIcon} />
+        </button>
+        <button class="menu-toggle tool-button" aria-controls="home-navigation" aria-expanded="false" aria-label="打开导航" hidden><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+  <main id="main" class="page-width"><slot /></main>
+  <footer class="home-footer page-width"><span>关于 AI、技术与创造。</span><a class="text-link" href={current === 'home' ? '/blog/' : '/'}>{current === 'home' ? '文章归档' : '回到首页'}<span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a></footer>
+</div>
+<script>
+  import '../scripts/home';
+</script>

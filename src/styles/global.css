@@ -107,17 +107,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   :root:not([data-theme]) .astro-code span { color: var(--shiki-dark) !important; }
 }
 .reading-footer { border-top: 1px solid var(--border); margin-top: 80px; padding-top: 24px; color: var(--muted); font-size: 13px; display: flex; align-items: center; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
-.archive-intro { color: var(--muted); margin: 16px 0 40px; line-height: 1.8; }
-.archive-list { list-style: none; padding: 0; }
-.archive-list li { padding: 28px 0; border-top: 1px solid var(--border); }
-.archive-list time { font-size: 12px; color: var(--muted); }
-.archive-list h2 { font-size: 24px; margin: 10px 0; font-weight: 500; }
-.archive-list h2 a { display: flex; align-items: center; justify-content: space-between; gap: 16px; overflow-wrap: anywhere; }
-.archive-list h2 span { color: var(--accent); flex-shrink: 0; }
-.archive-list p { color: var(--muted); line-height: 1.8; }
 @media (prefers-reduced-motion: no-preference) {
-  .archive-list h2 span { transition: transform 180ms ease; }
-  .archive-list h2 a:hover span { transform: translateX(2px); }
   .tool-button { transition: background 180ms ease, transform 180ms ease; }
   .tool-button:active { transform: scale(.98); }
   .text-link .link-icon { transition: transform 180ms ease; }

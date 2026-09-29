@@ -19,6 +19,8 @@ DESIGN_VARIANCE = 5，MOTION_INTENSITY = 4，VISUAL_DENSITY = 3。
 - 保留自托管 Manrope / Space Grotesk，中文使用系统字体。
 - 文字左对齐，桌面标题两行，说明与阅读入口紧随标题。
 - 最新三篇文章用日期、标题、简介呈现，不使用玻璃卡片或烟雾缩略图。
+- 文章归档与首页共用 SiteShell：1120px 最大宽度、80px 页头、导航、柔光及其控制、主题切换与页脚；归档导航高亮“文章”。
+- 两页共用 PostPreview，日期位于标题上方，标题桌面 26px / 手机 24px，摘要 16px / 15px；归档展示全部真实文章及篇数。归档页标题桌面 44–56px、手机 36px，以紧凑介绍区引出文章列表。
 - 交互按钮使用胶囊圆角；仅手机导航浮层使用 12px 圆角。
 - 阅读页正文 17px / 1.95 行高，桌面内容最大约 736px；代码块支持独立滚动和双主题高亮。
 
@@ -50,6 +52,8 @@ DESIGN_VARIANCE = 5，MOTION_INTENSITY = 4，VISUAL_DENSITY = 3。
 
 - `src/styles/global.css`：语义主题变量与阅读排版。
 - `src/styles/home.css`：首页构图、光影与响应式布局。
+- `src/styles/archive.css`：文章归档介绍区与列表节奏。
+- `src/components/SiteShell.astro`、`PostPreview.astro`：首页与归档页共用的页面外壳及文章条目。
 - `src/scripts/home.ts`：菜单和动效状态。
 - `src/scripts/softlight.ts`：连续曲线、分层呼吸与柔光播放控制。
 - `src/scripts/theme.ts`、`src/components/ThemeToggle.astro`：外观切换。
