@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ArchiveBookshelf from './ArchiveBookshelf';
+interface Props { posts: CollectionEntry<'blog'>[] }
+const { posts } = Astro.props;
+const items = posts.map((post) => ({
+  id: post.id, title: post.data.title,
+  description: post.data.description,
+  date: post.data.pubDate.toISOString().slice(0, 10),
+}));
+---
+<div id="archive-bookshelf" class="archive-bookshelf" hidden>
+  <ArchiveBookshelf items={items} client:load />
+</div>

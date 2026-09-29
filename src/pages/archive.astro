@@ -1,0 +1,70 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteShell from '../components/SiteShell.astro';
+import BookshelfView from '../components/BookshelfView.astro';
+import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
+import searchIcon from '@phosphor-icons/core/assets/light/magnifying-glass-light.svg?raw';
+import '../styles/archive.css';
+import '../styles/timeline.css';
+import '../styles/bookshelf.css';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const years = new Map<number, CollectionEntry<'blog'>[]>();
+for (const post of posts) {
+  const year = post.data.pubDate.getUTCFullYear();
+  const articles = years.get(year) ?? [];
+  articles.push(post);
+  years.set(year, articles);
+}
+---
+
+<BaseLayout title="归档 · Fine" description="按时间浏览 Fine 的全部文章，搜索关于 AI、技术与创造的记录。" immersive>
+  <SiteShell current="archive">
+    <header class="archive-hero timeline-hero">
+      <h1>文章归档</h1>
+      <p>按时间回看每一次记录，找到想继续阅读的文章。</p>
+    </header>
+    <section class="timeline-archive" aria-label="文章归档">
+      <div class="archive-toolbar">
+      <form class="archive-search" data-archive-search role="search" hidden>
+        <label for="archive-query">搜索文章</label>
+        <div class="search-field">
+          <span class="link-icon" aria-hidden="true" set:html={searchIcon} />
+          <input id="archive-query" name="q" type="search" placeholder="搜索标题或摘要" autocomplete="off" aria-controls="archive-timeline archive-bookshelf" />
+          <button type="button" data-search-clear hidden>清空</button>
+        </div>
+      </form>
+        <div class="archive-view-switch" role="group" aria-label="文章展示方式" hidden>
+          <button type="button" data-archive-view="bookshelf" aria-pressed="true" aria-controls="archive-bookshelf">书架</button>
+          <button type="button" data-archive-view="timeline" aria-pressed="false" aria-controls="archive-timeline">时间线</button>
+        </div>
+      </div>
+      <p class="reduced-view-note" hidden>已根据“减少动态效果”偏好显示静态时间线。</p>
+      <p class="timeline-status" data-search-status role="status" aria-live="polite" aria-atomic="true">共 {posts.length} 篇文章，按时间倒序</p>
+      <div id="archive-timeline">
+        {Array.from(years, ([year, articles]) => <section class="timeline-year" data-timeline-year aria-labelledby={`year-${year}`}>
+          <h2 id={`year-${year}`}>{year}</h2>
+          <ol class="timeline-entries">
+            {articles.map((post) => <li class="timeline-entry" data-article-id={post.id} data-search={`${post.data.title} ${post.data.description}`}>
+              <article>
+                <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10).replaceAll('-', '.')}</time>
+                <h3><a href={`/blog/${post.id}/`}><span>{post.data.title}</span><span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a></h3>
+                <p>{post.data.description}</p>
+              </article>
+            </li>)}
+          </ol>
+        </section>)}
+      </div>
+      <BookshelfView posts={posts} />
+      <div class="timeline-empty" data-search-empty hidden>
+        <h2>没有找到相关文章</h2>
+        <p>试试更短的关键词，或清空搜索查看全部文章。</p>
+      </div>
+      {posts.length === 0 && <div class="timeline-empty"><h2>还没有文章</h2><p>第一篇记录正在酝酿中。</p></div>}
+    </section>
+  </SiteShell>
+  <script>
+    import '../scripts/archive';
+  </script>
+</BaseLayout>

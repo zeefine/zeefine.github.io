@@ -11,7 +11,7 @@ const { post } = Astro.props;
 <article class="post-preview">
   <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10).replaceAll('-', '.')}</time>
   <div class="post-summary">
-    <h3><a href={`/blog/${post.id}/`}>{post.data.title}<span class="link-icon post-arrow" aria-hidden="true" set:html={arrowRightIcon} /></a></h3>
+    <h3><a href={`/blog/${post.id}/`}><span class="post-title-text">{post.data.title}</span><span class="link-icon post-arrow" aria-hidden="true" set:html={arrowRightIcon} /></a></h3>
     <p>{post.data.description}</p>
   </div>
 </article>

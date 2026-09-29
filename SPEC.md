@@ -46,9 +46,33 @@ DESIGN_VARIANCE = 5，MOTION_INTENSITY = 4，VISUAL_DENSITY = 3。
 `/` 首页，`/blog/` 文章归档，`/blog/[id]/` Markdown 阅读页。
 标题、简介、日期来自现有内容集合，首页按日期倒序取最多三篇。
 保留空文章状态；不虚构文章、访问量或其他数据。
-本轮不部署、不改变 GitHub Pages 子路径配置、不新增搜索或 AI 服务。
+不部署、不改变 GitHub Pages 子路径配置、不新增 AI 服务。
+
+## 时间线归档与搜索
+
+- 新增 `/archive/`，保留 `/blog/` 文章列表与所有阅读页 URL；导航增加“归档”，“文章归档”入口指向新页面。
+- 使用现有 Astro、TypeScript、原生 CSS 与 Phosphor 图标，无新增依赖。共用 SiteShell 的配色、导航、柔光、44px 工具按钮。
+- 全部真实文章按日期倒序、UTC 年份分组，日期、标题、摘要与阅读链接构成时间线节点，不虚构内容。
+- 浏览器本地搜索标题和摘要，忽略大小写、首尾空格及全角/半角差异，空格分隔的关键词需全部匹配；不向外部服务发送查询。
+- 实时更新匹配篇数，隐藏没有匹配文章的年份，支持清空按钮与 Escape 清空；中文输入组合期间不提前筛选。
+- 无结果时显示明确提示；空文章库显示空状态；无脚本时隐藏搜索控件并完整显示时间线。
+- 实现顺序：静态时间线与入口 → 搜索与状态 → 桌面/手机、双主题及搜索验证。
+- 文件：`src/pages/archive.astro`、`src/styles/timeline.css`、`src/scripts/archive.ts`、`src/scripts/archive-search.ts`；纯搜索逻辑测试位于 `tests/archive-search.test.mjs`。
+- 沿用两空格与语义类名，安全读取 `data-search`，更新状态使用 `textContent`，不插入查询 HTML。
+- 验证：`source /Users/fine/.nvm/nvm.sh && nvm use && node --experimental-strip-types --test tests/archive-search.test.mjs && npm run build`；浏览器验证中文/英文匹配、零结果、清空、年份隐藏、导航及移动布局。
+- Always：保留文章内容、原有页面、键盘操作与减少动态效果支持。Ask first：新增外部搜索服务或依赖。Never：生成虚假文章或上传查询内容。
 
 ## 实现与验证
+
+### 归档书架视图
+
+- `/archive/` 提供“书架 / 时间线”切换，书架在左且默认展示；`?view=timeline` 可直接进入时间线。`?view=bookshelf` 和旧 `?view=roam` 链接兼容进入书架。
+- 接入 Componentry Newsletter Bookshelf 官方源码：Three.js / React Three Fiber 的布纹书封、悬停抬起、抽出居中、自动轻转与拖拽旋转，保留原版几何和运动曲线。书架内嵌正常页面，不接管页面滚动。
+- 使用博客雾白、苔绿主题变量作为书封配色；品牌文字 Fine，中文封面支持自动换行、超长标题省略。下方展示所选文章的完整标题、日期、摘要和阅读链接。
+- 同一文章只出现一次，筛选结果使用真实数量。搜索与时间线共用；筛选重建书架，清空选中状态。零结果不加载组件默认示例书籍。
+- 手机保留原版触摸拖拽浏览/旋转，提供展开、收起与前后按钮、键盘交互；没有 WebGL 时提供静态阅读链接。减少动态效果或无 JS 时显示静态时间线。
+- WebGL 组件仅在切换书架后动态加载；退出视图卸载 Canvas 并释放材质和几何资源。
+- 验证：构建/类型检查、中文绘字换行、搜索和空结果、鼠标点选/拖动、键盘、手机与主题适配。
 
 - `src/styles/global.css`：语义主题变量与阅读排版。
 - `src/styles/home.css`：首页构图、光影与响应式布局。

@@ -23,10 +23,16 @@ const latestUrl = latest ? `/blog/${latest.id}/` : '/blog/';
       </div>
     </section>
     <section class="latest-writing" aria-labelledby="writing-title">
-      <div class="section-heading"><h2 id="writing-title">最新文章</h2><a class="text-link" href="/blog/">文章归档 <span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a></div>
+      <div class="section-heading"><h2 id="writing-title">最新文章</h2></div>
       {posts.length ? <div class="post-previews">
         {posts.slice(0, 3).map((post) => <PostPreview post={post} />)}
       </div> : <p class="empty-posts">第一篇记录正在酝酿中。</p>}
+      {posts.length > 0 && <div class="latest-more">
+        <a class="text-link" href="/blog/">
+          <span>阅读更多</span>
+          <span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} />
+        </a>
+      </div>}
     </section>
   </SiteShell>
 </BaseLayout>

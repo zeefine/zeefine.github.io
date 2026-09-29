@@ -1,15 +1,15 @@
-.archive-hero { padding-block: 77px 56px; }
+.archive-hero { padding-block: 80px 48px; }
 .archive-hero h1 { margin: 0; font-size: clamp(44px, 4.3vw, 56px); font-weight: 450; line-height: 1.2; letter-spacing: -.035em; }
-.archive-hero p { margin-top: 24px; max-width: 40ch; color: var(--muted); font-size: 16px; line-height: 1.8; }
+.archive-hero p { margin-top: 24px; max-width: 40em; color: var(--muted); font-size: 16px; line-height: 1.8; }
 .archive-count { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 .archive-writing .section-heading { min-height: 44px; }
 .archive-writing .empty-posts { padding-bottom: 32px; }
 @media (max-width: 1023px) {
-  .archive-hero { padding-top: 70px; }
+  .archive-hero { padding-top: 64px; }
 }
 @media (max-width: 767px) {
-  .archive-hero { padding-block: 55px 40px; }
+  .archive-hero { padding-block: 48px 32px; }
   .archive-hero h1 { font-size: 36px; line-height: 1.25; }
-  .archive-hero p { margin-top: 20px; font-size: 15px; }
+  .archive-hero p { margin-top: 24px; font-size: 15px; }
   .archive-count { font-size: 12px; }
 }

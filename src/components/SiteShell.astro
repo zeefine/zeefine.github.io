@@ -1,12 +1,12 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
-import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
+import FooterContent from './FooterContent.astro';
 import pauseIcon from '@phosphor-icons/core/assets/light/pause-light.svg?raw';
 import playIcon from '@phosphor-icons/core/assets/light/play-light.svg?raw';
 import '../styles/home.css';
 
 interface Props {
-  current: 'home' | 'blog';
+  current: 'home' | 'blog' | 'archive';
 }
 const { current } = Astro.props;
 ---
@@ -24,6 +24,7 @@ const { current } = Astro.props;
         <nav class="home-nav" aria-label="主导航">
           <a href="/" aria-current={current === 'home' ? 'page' : undefined}>首页</a>
           <a href="/blog/" aria-current={current === 'blog' ? 'page' : undefined}>文章</a>
+          <a href="/archive/" aria-current={current === 'archive' ? 'page' : undefined}>归档</a>
         </nav>
       </div>
       <div class="header-tools">
@@ -37,7 +38,9 @@ const { current } = Astro.props;
     </div>
   </header>
   <main id="main" class="page-width"><slot /></main>
-  <footer class="home-footer page-width"><span>关于 AI、技术与创造。</span><a class="text-link" href={current === 'home' ? '/blog/' : '/'}>{current === 'home' ? '文章归档' : '回到首页'}<span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a></footer>
+  <footer class="home-footer page-width">
+    <FooterContent />
+  </footer>
 </div>
 <script>
   import '../scripts/home';
