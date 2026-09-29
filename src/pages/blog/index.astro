@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
@@ -11,7 +12,7 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTim
   <ul class="archive-list">
     {posts.map((post) => <li>
       <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>
-      <h2><a href={`/blog/${post.id}/`}>{post.data.title}<span aria-hidden="true">↗</span></a></h2>
+      <h2><a href={`/blog/${post.id}/`}>{post.data.title}<span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a></h2>
       <p>{post.data.description}</p>
     </li>)}
   </ul>

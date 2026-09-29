@@ -116,8 +116,12 @@ const syncMotion = () => {
   }
   if (motionControl) {
     motionControl.hidden = reducedMotion.matches;
-    motionControl.textContent = manuallyPaused ? '播放柔光' : '暂停柔光';
-    motionControl.setAttribute('aria-label', manuallyPaused ? '播放背景柔光动效' : '暂停背景柔光动效');
+    const label = manuallyPaused ? '播放背景柔光动效' : '暂停背景柔光动效';
+    motionControl.setAttribute('aria-label', label);
+    motionControl.title = label;
+    motionControl.querySelectorAll<HTMLElement>('[data-motion-icon]').forEach((icon) => {
+      icon.hidden = icon.dataset.motionIcon !== (manuallyPaused ? 'play' : 'pause');
+    });
   }
 };
 motionControl?.addEventListener('click', () => {
