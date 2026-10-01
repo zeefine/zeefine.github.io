@@ -1,14 +1,14 @@
 # Fine Blog · 晨光庭院
 
-状态：用户选择柔光空间，要求温柔、安静、自然，已授权实施。
-本规格替代此前电影感视频方案。
+状态：已实现。本文以当前本地源码、运行脚本和部署配置为准，核对日期为 2026-10-01。
+视觉方向为温柔、安静、自然的柔光空间，包含首页、文章列表、阅读页和书架 / 时间线归档。
 
 ## 设计方向
 
-个人博客，保留文章内容、导航名称、路由和 fine. 标识，重新设计视觉与阅读节奏。
-DESIGN_VARIANCE = 5，MOTION_INTENSITY = 4，VISUAL_DENSITY = 3。
-采用现有 Astro + TypeScript + Markdown + Tailwind CSS，无新增客户端框架或动画依赖。
-用户选择以 CSS 柔光为背景，因此不采用视频、三维模型或新生成图片。
+个人博客，使用 fine. 标识，以文章阅读与归档浏览为核心。
+基础技术栈为 Astro + TypeScript（严格模式）+ Markdown + Tailwind CSS，构建为静态网站。
+归档书架使用 Astro React 集成、React、React Three Fiber 与 Three.js；类名工具使用 clsx / tailwind-merge，正文排版使用 Tailwind Typography，界面图标使用 Phosphor。
+页面背景使用 CSS 径向渐变与原生 Web Animations API，不加载背景视频或图片；Three.js 用于归档书架，不用于柔光背景。
 
 ## 视觉规则
 
@@ -19,16 +19,20 @@ DESIGN_VARIANCE = 5，MOTION_INTENSITY = 4，VISUAL_DENSITY = 3。
 - 保留自托管 Manrope / Space Grotesk，中文使用系统字体。
 - 文字左对齐，桌面标题两行，说明与阅读入口紧随标题。
 - 最新三篇文章用日期、标题、简介呈现，不使用玻璃卡片或烟雾缩略图。
-- 文章归档与首页共用 SiteShell：1120px 最大宽度、80px 页头、导航、柔光及其控制、主题切换与页脚；归档导航高亮“文章”。
-- 两页共用 PostPreview，日期位于标题上方，标题桌面 26px / 手机 24px，摘要 16px / 15px；归档展示全部真实文章及篇数。归档页标题桌面 44–56px、手机 36px，以紧凑介绍区引出文章列表。
-- 交互按钮使用胶囊圆角；仅手机导航浮层使用 12px 圆角。
+- 首页、`/blog/` 文章列表、`/archive/` 归档共用 SiteShell：1120px 最大宽度、80px 页头、导航、柔光及其控制、主题切换与页脚；分别高亮“首页”“文章”“归档”。手机断点为 767px，平板断点为 1023px。
+- 所有页面的顶部主导航共用 SiteNav，依次显示“首页”“文章”“归档”，分别链接 `/`、`/blog/`、`/archive/`，统一字号、配色和选中状态。文章阅读页保留较窄的阅读页头与主题按钮，高亮“文章”；600px 以下缩小阅读页导航间距，以保持三个入口完整显示。
+- 首页和文章列表共用 PostPreview，日期位于标题上方，标题桌面 26px / 手机 24px，摘要均为 16px；文章列表展示内容集合中的全部文章及篇数。文章列表和归档页标题桌面 44–56px、手机 36px。
+- 工具按钮为 44px 圆形按钮，首页阅读按钮与归档视图切换使用胶囊圆角；手机导航浮层和搜索输入框使用 12px 圆角，书架悬停提示使用 6px 圆角。
 - 阅读页正文 17px / 1.95 行高，桌面内容最大约 736px；代码块支持独立滚动和双主题高亮。
 
 ## 交互与后备
 
 - 首页标题分行入场：每行 1000ms，第二行延迟 300ms，从 translateY(12px) / opacity: 0 到 translateY(0) / opacity: 1，缓动 cubic-bezier(0.22, 0.61, 0.36, 1)。
-- 标题每次首页文档加载播放一次，不随主题切换或悬停重播；无弹跳、无缩放；移除父容器入场，说明与按钮直接显示。
+- 标题每次首页文档加载播放一次，不随主题切换或悬停重播；浏览器后退缓存恢复时不强制重播。无弹跳、无缩放；父容器没有叠加入场动画，说明与按钮直接显示。
 - 系统减少动态效果时，两行标题直接完整显示，不执行位移动画。
+- 首页介绍为三行“开心最重要...”“: )”“: )”，字号统一为 17px、行高 1.95。仅第一行使用文字流光（Text Shimmer）：通过 background-clip: text 将渐变裁切在字形内部，基础文字色使用现有 `--muted` 并随主题自动更新，局部高光为纯白 #FFFFFF；光带范围为 45%–55%，通过多段白色与基础文字色的混合过渡柔化边缘，不模糊字形。背景尺寸为 300% × 100%，每轮 5 秒、linear 缓动，背景位置从 100% 0 移至 0% 0，使局部高光从左向右穿过文字。循环首尾均回到基础文字色，没有矩形光带、混合模式、位移、缩放或整行透明度变化；两行表情保持静止。
+- 文字流光与柔光共用页面动效暂停按钮；暂停或页面进入后台时冻结，恢复时延续当前进度。减少动态效果、不支持文字背景裁切或强制颜色模式时使用静态文字；无脚本时动画默认暂停在初始基础文字色。所有情况下文字完整可读，并保留文本选择时的前景色。
+- 首页“开始阅读”作为原生链接直接进入 `/blog/` 文章列表，保留原有尺寸、间距、配色及悬停、按下反馈；修饰键点击使用浏览器默认行为。
 - 柔光三层周期为 18 / 23 / 29 秒，使用正弦叠加的闭合曲线，首尾位置及速度连续；旋转限制在各自基准角度 ±12–16°，呼吸形变控制在横向 ±9%、纵向 ±7%，避免整圈旋转与突兀拐点。每层一次生成 121 个 transform 关键帧，交给浏览器 Web Animations API 播放；鼠标停留时继续流动，暂停后从原相位继续。
 - 保留原有渐变颜色、透明度和光场构图；光斑固定 blur(60px)，移动端降为 36px，不逐帧改变模糊或边框形状。参考极光的光层交融方式，不引入参考站的新颜色。
 - 鼠标移动时三层柔光从原有右上光场（背景宽度 80%、高度 40%）朝指针平滑靠近，各层跟随距离比例为 65% / 45% / 80%，避免小幅视差被大面积渐变掩盖；移出背景或窗口后缓缓回中。独立外层位移与原有漂移叠加，不改变配色、透明度、布局或标题动画。
@@ -37,65 +41,87 @@ DESIGN_VARIANCE = 5，MOTION_INTENSITY = 4，VISUAL_DENSITY = 3。
 - 动效可暂停；会话内保留选择；后台自动暂停；系统减少动态效果时关闭。
 - 无脚本时背景静止且内容始终显示，不依赖解除隐藏的计时器。
 - 外观初次跟随系统，手动选择保存到 localStorage 并跨页面保留。
+- 外观按钮使用太阳 / 月亮图标表示可切换到的主题，保留中文 aria-label 和 title；通过 storage 事件同步其他标签页中的主题选择。
 - 存储受限时切换仍在当前页面有效，浏览不受影响。
 - 手机菜单支持 Escape、外部点击关闭、焦点移入/返回、关闭时 inert。
 - 所有装饰均不参与屏幕阅读器语义；跳到正文与键盘焦点样式保留。
 
 ## 内容与范围
 
-`/` 首页，`/blog/` 文章归档，`/blog/[id]/` Markdown 阅读页。
-标题、简介、日期来自现有内容集合，首页按日期倒序取最多三篇。
-保留空文章状态；不虚构文章、访问量或其他数据。
-不部署、不改变 GitHub Pages 子路径配置、不新增 AI 服务。
+| 路由 | 当前功能 |
+| --- | --- |
+| `/` | 首页：两行标题、介绍、阅读入口、最新最多三篇文章及“阅读更多” |
+| `/blog/` | “思考与记录”文章列表，展示全部文章和篇数 |
+| `/archive/` | “文章归档”，提供本地搜索与书架 / 时间线视图 |
+| `/blog/[id]/` | 根据 Markdown 内容集合生成的静态阅读页 |
+
+标题、简介、日期来自 `src/content/blog/**/*.md`，由 `src/content.config.ts` 校验 `title`、`description` 和 `pubDate`；文章按日期倒序展示。
+当前集合包含 `hello-world.md` 和 8 篇 `demo-*.md` 示例文章；这些 Markdown 也会生成页面并出现在列表和书架中。书架上游的 32 本英文演示书及日期、摘要生成逻辑已删除，`NewsletterBookshelf.items` 为必传参数。
+首页“开始阅读”与导航“文章”、“阅读更多”均指向 `/blog/` 文章列表；空文章库时改为“浏览文章”，列表保留空状态。阅读页“全部文章”返回 `/blog/`，页头三个导航分别进入首页、文章列表与归档。
+页脚包含 GitHub 主页链接、静态“邮箱”文字和版权信息；当前没有邮箱链接、访问量统计或 AI 服务。
+浏览器标签图标来自 `public/favicon.svg`，由 BaseLayout 引用。旧背景图片 `public/images/smoke.png` 已删除。
 
 ## 时间线归档与搜索
 
-- 新增 `/archive/`，保留 `/blog/` 文章列表与所有阅读页 URL；导航增加“归档”，“文章归档”入口指向新页面。
-- 使用现有 Astro、TypeScript、原生 CSS 与 Phosphor 图标，无新增依赖。共用 SiteShell 的配色、导航、柔光、44px 工具按钮。
-- 全部真实文章按日期倒序、UTC 年份分组，日期、标题、摘要与阅读链接构成时间线节点，不虚构内容。
+- `/archive/` 与 `/blog/` 文章列表、所有阅读页共存；所有页面顶部导航的“归档”入口指向 `/archive/`。
+- 时间线与搜索使用 Astro、TypeScript、原生 CSS 与 Phosphor 图标；共用 SiteShell 的配色、导航、柔光和主题按钮。
+- 内容集合中的全部文章按日期倒序、UTC 年份分组，日期、标题、摘要与阅读链接构成时间线节点。
 - 浏览器本地搜索标题和摘要，忽略大小写、首尾空格及全角/半角差异，空格分隔的关键词需全部匹配；不向外部服务发送查询。
 - 实时更新匹配篇数，隐藏没有匹配文章的年份，支持清空按钮与 Escape 清空；中文输入组合期间不提前筛选。
 - 无结果时显示明确提示；空文章库显示空状态；无脚本时隐藏搜索控件并完整显示时间线。
-- 实现顺序：静态时间线与入口 → 搜索与状态 → 桌面/手机、双主题及搜索验证。
 - 文件：`src/pages/archive.astro`、`src/styles/timeline.css`、`src/scripts/archive.ts`、`src/scripts/archive-search.ts`；纯搜索逻辑测试位于 `tests/archive-search.test.mjs`。
 - 沿用两空格与语义类名，安全读取 `data-search`，更新状态使用 `textContent`，不插入查询 HTML。
-- 验证：`source /Users/fine/.nvm/nvm.sh && nvm use && node --experimental-strip-types --test tests/archive-search.test.mjs && npm run build`；浏览器验证中文/英文匹配、零结果、清空、年份隐藏、导航及移动布局。
-- Always：保留文章内容、原有页面、键盘操作与减少动态效果支持。Ask first：新增外部搜索服务或依赖。Never：生成虚假文章或上传查询内容。
+- 减少动态效果开启时自动显示时间线，隐藏视图切换和书架，并显示说明；运行中开启该偏好会将书架内焦点移回搜索框，关闭后保留时间线视图，可手动切回书架。
 
 ## 实现与验证
 
 ### 归档书架视图
 
-- `/archive/` 提供“书架 / 时间线”切换，书架在左且默认展示；`?view=timeline` 可直接进入时间线。`?view=bookshelf` 和旧 `?view=roam` 链接兼容进入书架。
-- 接入 Componentry Newsletter Bookshelf 官方源码：Three.js / React Three Fiber 的布纹书封、悬停抬起、抽出居中、自动轻转与拖拽旋转，保留原版几何和运动曲线。书架内嵌正常页面，不接管页面滚动。
-- 使用博客雾白、苔绿主题变量作为书封配色；品牌文字 Fine，中文封面支持自动换行、超长标题省略。下方展示所选文章的完整标题、日期、摘要和阅读链接。
-- 同一文章只出现一次，筛选结果使用真实数量。搜索与时间线共用；筛选重建书架，清空选中状态。零结果不加载组件默认示例书籍。
-- 手机保留原版触摸拖拽浏览/旋转，提供展开、收起与前后按钮、键盘交互；没有 WebGL 时提供静态阅读链接。减少动态效果或无 JS 时显示静态时间线。
-- WebGL 组件仅在切换书架后动态加载；退出视图卸载 Canvas 并释放材质和几何资源。
-- 验证：构建/类型检查、中文绘字换行、搜索和空结果、鼠标点选/拖动、键盘、手机与主题适配。
+- `/archive/` 提供“书架 / 时间线”切换，书架在左且为启用脚本、未开启减少动态效果时的默认视图；`?view=timeline` 可直接进入时间线。其他参数值（包括 `bookshelf`、`roam`）按默认书架处理；按钮切换只更新当前页面视图，不改写 URL。
+- 基于 Componentry Newsletter Bookshelf 源码实现 Three.js / React Three Fiber 书架：布纹书封、悬停抬起、抽出居中、自动轻转与拖拽旋转。入场 520ms、退场 400ms，切换书本时先归位再展开新书。书架内嵌正常页面，横向拖动浏览，触屏保留纵向页面滚动；横向滚轮或 Shift + 滚轮用于浏览书架。
+- 使用博客雾白、苔绿主题变量作为书封配色；封面品牌文字为 FINE，中文封面支持自动换行、超长标题省略。下方展示所选文章的完整标题、日期、摘要和阅读链接。
+- 同一文章只出现一次，搜索与时间线共用。初始化后仅在匹配文章 ID 集合变化时递增 revision、重建书架并清空选中状态；大小写、空格、全角 / 半角变化后结果相同，或 ID 插入顺序变化，不触发重建。显示状态相同也不重复发送更新事件。零结果隐藏书架，不填充演示书籍。
+- 点击书本展开，再次点击已展开书本进入文章；点击 Canvas 空白区域或在书架获得焦点时按 Escape 收起。键盘左右方向键浏览或切换书本，Enter / 空格展开或进入阅读。
+- 桌面和手机均无上方拖动说明文字，也无“展开书本”“收起书本”及左右箭头按钮栏；书架下方未选中时仍显示“点选一本，翻看这篇记录。”，选中后显示文章详情和“阅读全文”。
+- React 包装组件使用 `client:load`；WebGL 模块仅在书架视图激活、有匹配文章且字体就绪后通过 React.lazy 动态加载。书架高度桌面 520px、手机 440px；切换时间线、零结果或开启减少动态效果时卸载书架，清理纹理与几何资源。
+- 模块或渲染失败时由错误边界提供静态文章链接；无 JS 时显示静态时间线。主题变量用于生成书封，随系统或手动主题变化更新。
+- 上游源码快照与 MIT 许可证保存在 `vendor/componentry/`；Collection Surfer 文件仅为历史参考，不属于当前运行组件。
+
+### 主要文件
 
 - `src/styles/global.css`：语义主题变量与阅读排版。
 - `src/styles/home.css`：首页构图、光影与响应式布局。
-- `src/styles/archive.css`：文章归档介绍区与列表节奏。
-- `src/components/SiteShell.astro`、`PostPreview.astro`：首页与归档页共用的页面外壳及文章条目。
+- `src/styles/archive.css`：文章列表与归档介绍区。
+- `src/styles/timeline.css`、`bookshelf.css`：时间线、搜索、书架与视图切换样式。
+- `src/components/SiteShell.astro`、`PostPreview.astro`：公共页面外壳，以及首页和文章列表共用的文章条目。
+- `src/components/SiteNav.astro`：所有页面共用的三项主导航与当前栏目状态。
+- `src/components/BookshelfView.astro`、`ArchiveBookshelf.tsx`、`ui/newsletter-bookshelf.tsx`：文章数据适配、React 详情与后备、WebGL 书架。
+- `src/scripts/archive.ts`、`archive-search.ts`、`archive-bookshelf.ts`：归档视图与搜索、搜索匹配、书架数据与显示状态同步。
 - `src/scripts/home.ts`：菜单和动效状态。
 - `src/scripts/softlight.ts`：连续曲线、分层呼吸与柔光播放控制。
 - `src/scripts/theme.ts`、`src/components/ThemeToggle.astro`：外观切换。
 - `src/layouts/BaseLayout.astro`：共享外观与元数据。
-- `astro.config.mjs`：Markdown 双主题语法高亮。
+- `astro.config.mjs`：静态输出、站点地址、React / Tailwind 集成与 Markdown 双主题语法高亮。
 
-使用 `npm run build` 检查类型和静态输出；实际浏览器验证双主题、移动导航、文章链接和动效暂停。
-性能分数只有实际运行 Lighthouse 后才能报告，不根据视觉或构建结果推定。
+## 本地运行与部署
 
-## 标题动效实施约定
+- `.nvmrc` 指定 Node.js 22.23.3，本地服务脚本和部署工作流使用该版本；依赖由 `package-lock.json` 锁定。
+- `npm run dev` 启动前台开发服务；`start.sh` 启动 Astro 后台开发服务，默认监听 `127.0.0.1:4321`，具体地址以 Astro 输出为准；日志位于 `.astro/dev.log`。`stop.sh` 停止当前项目由 Astro 管理的开发和预览服务。
+- 服务脚本通过 `scripts/local-env.sh` 切换已安装的 nvm 版本并检查依赖，缺少环境时提示手动安装。
+- `npm run build` 执行 `astro check && astro build`，静态输出位于 `dist/`；`npm run preview` 预览构建产物。
+- GitHub Pages 站点地址为 `https://zeefine.github.io`，部署在域名根路径，当前未配置 `base` 子路径，站内链接以 `/` 开头。
+- `.github/workflows/deploy.yml` 在推送 `main` 时自动执行，也可手动触发。工作流构建并上传静态产物，仅在 `main` 执行部署；Pages 来源应选择 GitHub Actions。
+- 工作流使用 checkout@v7、withastro/action@v6 和 deploy-pages@v5；构建权限为 contents: read，部署权限为 pages: write 与 id-token: write。
+- 部署工作流运行类型检查与构建，当前未配置自动执行 Node 单元测试。
 
-用户已确认六条行为要求并授权实现。按当前 Astro 整页导航，每次加载首页文档播放一次；浏览器后退缓存恢复不强制重播。
+## 验证方式
 
-- 命令：`source /Users/fine/.nvm/nvm.sh && nvm use && npm run build`。
-- 范围：仅调整 `src/pages/index.astro` 标题包裹元素及 `src/styles/home.css` 标题动画。
-- 风格：沿用语义类名、两空格缩进；示例 `<span class="hero-title-line">Stay Curious.</span>`。
-- 验证：构建检查；浏览器检查两行动画时长、延迟、关键帧和父容器无动画；主题切换后动画不重启；移动端标题完整显示。
-- Always：保留标题文案、布局、颜色、无障碍语义及减少动态效果适配。
-- Ask first：增加依赖、扩展其他动效或改变导航方式。
-- Never：逐字拆分、循环标题动画、将父容器动画叠加到标题。
-- 无未决问题；此次可逆视觉调整不增加测试框架。
+```bash
+nvm use
+node --test tests/*.test.mjs
+npm run build
+```
+
+- 搜索测试位于 `tests/archive-search.test.mjs`；中文封面换行与截断测试位于 `tests/bookshelf-text.test.mjs`；相同搜索结果不重置、ID 集合变化与显示状态通知测试位于 `tests/archive-bookshelf.test.mjs`。
+- 浏览器检查范围：首页两行动画、主题切换、移动导航、柔光自动流动 / 跟随 / 暂停，归档搜索与空结果，书架点选 / 拖动 / 键盘 / 阅读入口及减少动态效果后备。
+- 构建仍有超过 500 kB 的客户端脚本包提示；性能分数仅在实际运行 Lighthouse 后报告，不能根据视觉或构建成功推定。

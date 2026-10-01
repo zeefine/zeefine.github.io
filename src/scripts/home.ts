@@ -40,6 +40,7 @@ if (header && menu && toggle) {
 }
 
 const motionControl = document.querySelector<HTMLButtonElement>('.motion-control');
+const animatedCopy = document.querySelector<HTMLElement>('.text-shimmer');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
 const softlight = document.querySelector<HTMLElement>('.softlight');
@@ -104,7 +105,7 @@ try { manuallyPaused = sessionStorage.getItem('fine-motion-paused') === 'true'; 
 const syncMotion = () => {
   const running = !reducedMotion.matches && !manuallyPaused && !document.hidden;
   softlightMotion.sync(running, reducedMotion.matches);
-  document.documentElement.classList.toggle('motion-running', running);
+  animatedCopy?.style.setProperty('--copy-motion-play-state', running ? 'running' : 'paused');
   following = running && finePointer.matches && lightLayers.length > 0;
   cancelAnimationFrame(followFrame);
   followFrame = 0;
@@ -116,7 +117,7 @@ const syncMotion = () => {
   }
   if (motionControl) {
     motionControl.hidden = reducedMotion.matches;
-    const label = manuallyPaused ? '播放背景柔光动效' : '暂停背景柔光动效';
+    const label = manuallyPaused ? '播放页面动效' : '暂停页面动效';
     motionControl.setAttribute('aria-label', label);
     motionControl.title = label;
     motionControl.querySelectorAll<HTMLElement>('[data-motion-icon]').forEach((icon) => {

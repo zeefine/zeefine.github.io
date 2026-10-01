@@ -6,8 +6,6 @@ import PostPreview from '../components/PostPreview.astro';
 import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-const latest = posts[0];
-const latestUrl = latest ? `/blog/${latest.id}/` : '/blog/';
 ---
 
 <BaseLayout title="Fine · Stay Curious" immersive>
@@ -18,8 +16,8 @@ const latestUrl = latest ? `/blog/${latest.id}/` : '/blog/';
           <span class="hero-title-line">Stay Curious.</span>
           <span class="hero-title-line">Build What's Next.</span>
         </h1>
-        <p class="hero-copy">在这里，记录关于 AI、技术与创造的思考。<br />把日常的好奇，变成具体的尝试。<br />也把每一次探索，留给未来的自己。</p>
-        <a class={latest ? 'primary-cta' : 'text-link'} href={latestUrl}><span>{latest ? '开始阅读' : '浏览文章'}</span><span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a>
+        <p class="hero-copy"><span class="text-shimmer">开心最重要...</span><br />: )<br />: )</p>
+        <a class={posts.length ? 'primary-cta' : 'text-link'} href="/blog/"><span>{posts.length ? '开始阅读' : '浏览文章'}</span><span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a>
       </div>
     </section>
     <section class="latest-writing" aria-labelledby="writing-title">

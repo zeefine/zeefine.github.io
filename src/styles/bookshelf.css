@@ -8,13 +8,8 @@
 .reduced-view-note { color: var(--muted); font-size: 13px; line-height: 1.8; margin-bottom: 24px; }
 /* Theme colors are shared by the WebGL covers and the surrounding reading UI. */
 .archive-bookshelf { border-top: 1px solid var(--border); }
-.bookshelf-hint { margin: 20px 0 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
 .bookshelf-stage { color: var(--text); background: transparent; --shelf-accent: var(--accent); }
 .bookshelf-tooltip { color: var(--on-accent); background: var(--accent); white-space: normal; overflow-wrap: anywhere; }
-.bookshelf-controls { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; }
-.bookshelf-controls button { background: var(--surface-raised); }
-.bookshelf-controls button:disabled { opacity: .35; cursor: default; }
-.bookshelf-close { min-height: 44px; padding: 0 16px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; color: var(--muted); white-space: nowrap; }
 .bookshelf-detail { padding: 24px 0; border-top: 1px solid var(--border); min-height: 130px; }
 .bookshelf-detail article { display: flex; justify-content: space-between; align-items: center; gap: 32px; }
 .bookshelf-detail time { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }

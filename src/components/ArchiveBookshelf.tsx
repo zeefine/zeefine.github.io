@@ -39,12 +39,11 @@ function ShelfView({ items }: { items: ArchiveItem[] }) {
     return () => { alive = false; observer.disconnect(); small.removeEventListener('change', update); dark.removeEventListener('change', update); };
   }, []);
   const books = useMemo(() => items.map((item, index) => ({
-    id: item.id, title: item.title, date: item.date.replaceAll('-', '.'), subtitle: item.description,
+    id: item.id, title: item.title, date: item.date.replaceAll('-', '.'),
     href: `/blog/${item.id}/`, color: palette[index % 4], foil: index % 4 === 0 ? palette[3] : palette[4],
   })), [items, palette]);
   const loading = <div className="bookshelf-loading" style={{ height }} role="status">正在整理书架…</div>;
   return <>
-    <p className="bookshelf-hint">左右拖动浏览，点击书本展开；再次点击封面即可阅读。</p>
     <ShelfBoundary fallback={<FallbackList items={items} />}>
       <Suspense fallback={loading}>
         {ready ? <NewsletterBookshelf items={books} brand="FINE" height={height}

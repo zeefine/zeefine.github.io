@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 import FooterContent from './FooterContent.astro';
+import SiteNav from './SiteNav.astro';
 import pauseIcon from '@phosphor-icons/core/assets/light/pause-light.svg?raw';
 import playIcon from '@phosphor-icons/core/assets/light/play-light.svg?raw';
 import '../styles/home.css';
@@ -21,11 +22,7 @@ const { current } = Astro.props;
     <a class="wordmark" href="/" aria-label="Fine 博客首页">fine<span>.</span></a>
     <div class="header-end">
       <div class="header-actions" id="home-navigation">
-        <nav class="home-nav" aria-label="主导航">
-          <a href="/" aria-current={current === 'home' ? 'page' : undefined}>首页</a>
-          <a href="/blog/" aria-current={current === 'blog' ? 'page' : undefined}>文章</a>
-          <a href="/archive/" aria-current={current === 'archive' ? 'page' : undefined}>归档</a>
-        </nav>
+        <SiteNav current={current} />
       </div>
       <div class="header-tools">
         <ThemeToggle />

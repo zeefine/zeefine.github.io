@@ -63,6 +63,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .skip-link:focus { transform: translateY(0); }
 .wordmark { font-family: 'Space Grotesk Variable', var(--font-sans); font-size: 32px; font-weight: 600; letter-spacing: -2px; color: var(--text); line-height: 1; }
 .wordmark span { color: var(--accent); }
+.site-nav { display: flex; gap: 32px; font-size: 14px; }
+.site-nav a { padding: 12px 0; color: var(--muted); text-underline-offset: 7px; text-decoration-thickness: 1px; }
+.site-nav a:hover, .site-nav a[aria-current] { color: var(--text); text-decoration: underline; }
 .tool-button { display: inline-grid; place-items: center; flex-shrink: 0; color: var(--muted); width: 44px; height: 44px; padding: 0; border: 1px solid var(--border); border-radius: 999px; background: transparent; }
 .theme-icon, .theme-icon svg { display: block; width: 20px; height: 20px; }
 .tool-button:hover { color: var(--text); background: var(--surface-raised); }
@@ -113,8 +116,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   .text-link .link-icon { transition: transform 180ms ease; }
   .text-link:hover .link-icon { transform: translateX(2px); }
 }
+@media (max-width: 767px) {
+  .site-nav { gap: 24px; }
+}
 @media (max-width: 600px) {
   .reading-shell { padding: 22px; }
   .reading-header { margin-bottom: 40px; }
   .reading-actions { gap: 14px; font-size: 12px; }
+  .reading-actions .site-nav { gap: 16px; }
 }

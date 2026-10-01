@@ -6,8 +6,6 @@
 // Official registry snapshot and license: vendor/componentry/.
 import { cn } from "../../lib/utils";
 import { wrapCoverTitle } from "../../lib/bookshelf-text";
-import arrowLeft from '@phosphor-icons/core/assets/light/arrow-left-light.svg?raw';
-import arrowRight from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
 import { Canvas, type ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import {
   type CSSProperties,
@@ -25,14 +23,13 @@ export interface NewsletterBookshelfItem {
   id: string;
   title: string;
   date: string;
-  subtitle?: string;
   href?: string;
   color?: string;
   foil?: string;
 }
 
 export interface NewsletterBookshelfProps {
-  items?: NewsletterBookshelfItem[];
+  items: NewsletterBookshelfItem[];
   className?: string;
   height?: number | string;
   brand?: string;
@@ -64,57 +61,6 @@ const PALETTE = [
   "#25252a",
   "#3a3a40",
 ];
-
-const defaultTitles = [
-  "The systems issue",
-  "A field guide to good taste",
-  "The small team advantage",
-  "Notes on building in public",
-  "A better creative workflow",
-  "The useful AI playbook",
-  "Designing for momentum",
-  "The quiet automation stack",
-  "How ideas become products",
-  "The founder's operating manual",
-  "A week of useful experiments",
-  "The leverage edition",
-  "What we learned shipping early",
-  "Tools worth keeping",
-  "The case for fewer meetings",
-  "A practical guide to agents",
-  "Making software feel human",
-  "The compounding details",
-  "Build the smallest useful thing",
-  "The creative director in your pocket",
-  "Signals from the frontier",
-  "A calmer way to move fast",
-  "The prototype-first company",
-  "Workflows that actually stick",
-  "The one-person studio",
-  "Notes from a strange future",
-  "The high-agency handbook",
-  "A new interface for work",
-  "The craft issue",
-  "Ideas with a pulse",
-  "The independent builder",
-  "A map for the next chapter",
-];
-
-export const defaultNewsletterBooks: NewsletterBookshelfItem[] =
-  defaultTitles.map((title, index) => ({
-    id: `edition-${defaultTitles.length - index}`,
-    title,
-    date: new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      timeZone: "UTC",
-    })
-      .format(new Date(Date.UTC(2026, 6, 31 - index * 7, 12)))
-      .toUpperCase(),
-    subtitle:
-      "A concise collection of practical notes, experiments, and ideas for people building what comes next.",
-  }));
 
 function hash(input: string) {
   let value = 2166136261;
@@ -890,7 +836,7 @@ function nearestBook(books: BookLayout[], x: number) {
 }
 
 export function NewsletterBookshelf({
-  items = defaultNewsletterBooks,
+  items,
   className,
   height = 620,
   brand = "The Brief",
@@ -898,7 +844,7 @@ export function NewsletterBookshelf({
   onClose,
 }: NewsletterBookshelfProps) {
   const books = useMemo(
-    () => deriveLayout(items.length ? items : defaultNewsletterBooks),
+    () => deriveLayout(items),
     [items],
   );
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -915,7 +861,6 @@ export function NewsletterBookshelf({
     x: number;
     y: number;
     startX: number;
-    startedAt: number;
   } | null>(null);
   const switchTimer = useRef<number | null>(null);
   const pendingSelection = useRef<number | null>(null);
@@ -1056,7 +1001,6 @@ export function NewsletterBookshelf({
       x: event.clientX,
       y: event.clientY,
       startX: event.clientX,
-      startedAt: performance.now(),
     };
   };
 
@@ -1184,19 +1128,6 @@ export function NewsletterBookshelf({
         >
           {hovered?.title}
           <span className="block opacity-70">{hovered?.date}</span>
-        </div>
-
-        <div className="bookshelf-controls">
-          <button type="button" className="tool-button" aria-label="上一本" disabled={selectedIndex === null ? cameraX.current <= bounds.min : selectedIndex === 0}
-            onClick={() => selectedIndex === null ? moveCamera(cameraX.current - bounds.visibleSpan * .23) : switchFocused(-1)}>
-            <span className="link-icon" aria-hidden="true" dangerouslySetInnerHTML={{ __html: arrowLeft }} />
-          </button>
-          {selectedBook ? <button type="button" className="bookshelf-close" onClick={close}>收起书本</button>
-            : <button type="button" className="bookshelf-close" onClick={() => selectBook(currentIndex)}>展开书本</button>}
-          <button type="button" className="tool-button" aria-label="下一本" disabled={selectedIndex === null ? cameraX.current >= bounds.max : selectedIndex === books.length - 1}
-            onClick={() => selectedIndex === null ? moveCamera(cameraX.current + bounds.visibleSpan * .23) : switchFocused(1)}>
-            <span className="link-icon" aria-hidden="true" dangerouslySetInnerHTML={{ __html: arrowRight }} />
-          </button>
         </div>
 
       </div>
