@@ -1,5 +1,7 @@
 import { matchesSearch } from './archive-search';
 import { createArchiveBookshelf } from './archive-bookshelf';
+import { documentLocale, message } from '../i18n/ui';
+const locale = documentLocale();
 
 const form = document.querySelector<HTMLFormElement>('[data-archive-search]');
 const input = form?.querySelector<HTMLInputElement>('input');
@@ -21,6 +23,7 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const bookshelf = bookshelfRoot ? createArchiveBookshelf(bookshelfRoot) : null;
 
 if (form && input && clear && status && empty) {
+  input.value = new URLSearchParams(location.search).get('q') ?? input.value;
   let composing = false;
   let count = total;
   let view = new URLSearchParams(location.search).get('view') === 'timeline' ? 'timeline' : 'bookshelf';
@@ -49,8 +52,8 @@ if (form && input && clear && status && empty) {
     clear.hidden = input.value.length === 0;
     empty.hidden = count > 0 || total === 0;
     status.textContent = input.value.trim()
-      ? `找到 ${count} 篇文章，共 ${total} 篇`
-      : `共 ${total} 篇文章，按时间倒序`;
+      ? message(locale, 'results', { count, total })
+      : message(locale, 'total', { count: total });
     bookshelf?.setItems(ids);
     syncView();
   };

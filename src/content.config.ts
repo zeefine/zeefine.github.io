@@ -8,6 +8,15 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
+    locale: z.enum(['zh', 'en']).default('zh'),
+    translationOf: z.string().optional(),
+  }).superRefine((post, ctx) => {
+    if (post.locale === 'en' && !post.translationOf) {
+      ctx.addIssue({ code: 'custom', message: 'English articles must specify translationOf.' });
+    }
+    if (post.locale === 'zh' && post.translationOf) {
+      ctx.addIssue({ code: 'custom', message: 'translationOf belongs on the English translation.' });
+    }
   }),
 });
 

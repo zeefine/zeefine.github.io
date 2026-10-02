@@ -1,14 +1,17 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { BlogPost } from '../lib/posts';
+import { localePath, type Locale } from '../i18n/ui';
 import ArchiveBookshelf from './ArchiveBookshelf';
-interface Props { posts: CollectionEntry<'blog'>[] }
-const { posts } = Astro.props;
+interface Props { posts: BlogPost[]; locale: Locale }
+const { posts, locale } = Astro.props;
 const items = posts.map((post) => ({
-  id: post.id, title: post.data.title,
-  description: post.data.description,
-  date: post.data.pubDate.toISOString().slice(0, 10),
+  id: post.id, title: post.entry.data.title,
+  description: post.entry.data.description,
+  date: post.pubDate.toISOString().slice(0, 10),
+  href: localePath(`/blog/${post.id}/`, locale),
+  contentLocale: post.contentLocale,
 }));
 ---
 <div id="archive-bookshelf" class="archive-bookshelf" hidden>
-  <ArchiveBookshelf items={items} client:load />
+  <ArchiveBookshelf items={items} locale={locale} client:load />
 </div>

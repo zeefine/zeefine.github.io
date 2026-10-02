@@ -1,17 +1,21 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { BlogPost } from '../lib/posts';
+import { htmlLang, localePath, ui, type Locale } from '../i18n/ui';
 import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  post: BlogPost;
+  locale: Locale;
 }
-const { post } = Astro.props;
+const { post, locale } = Astro.props;
+const data = post.entry.data;
 ---
 
-<article class="post-preview">
-  <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10).replaceAll('-', '.')}</time>
+<article class="post-preview" lang={htmlLang(post.contentLocale)}>
+  <time datetime={post.pubDate.toISOString()}>{post.pubDate.toISOString().slice(0, 10).replaceAll('-', '.')}</time>
   <div class="post-summary">
-    <h3><a href={`/blog/${post.id}/`}><span class="post-title-text">{post.data.title}</span><span class="link-icon post-arrow" aria-hidden="true" set:html={arrowRightIcon} /></a></h3>
-    <p>{post.data.description}</p>
+    <h3><a href={localePath(`/blog/${post.id}/`, locale)}><span class="post-title-text">{data.title}</span><span class="link-icon post-arrow" aria-hidden="true" set:html={arrowRightIcon} /></a></h3>
+    <p>{data.description}</p>
+    {locale === 'en' && post.contentLocale === 'zh' && <span class="original-label" lang="en">{ui[locale].original}</span>}
   </div>
 </article>

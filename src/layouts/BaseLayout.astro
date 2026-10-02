@@ -2,27 +2,34 @@
 import '../styles/global.css';
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/space-grotesk';
-import ThemeToggle from '../components/ThemeToggle.astro';
 import FooterContent from '../components/FooterContent.astro';
-import SiteNav from '../components/SiteNav.astro';
+import HeaderControls from '../components/HeaderControls.astro';
+import { htmlLang, localePath, ui, type Locale } from '../i18n/ui';
 
 interface Props {
   title: string;
   description?: string;
   immersive?: boolean;
+  locale: Locale;
+  canonicalPath?: string;
+  alternateLocales?: Locale[];
 }
 
-const { title, description = '关于 AI、技术与创造的个人博客。', immersive = false } = Astro.props;
+const { title, locale, description = ui[locale].description, immersive = false,
+  canonicalPath = Astro.url.pathname, alternateLocales = ['zh', 'en'] } = Astro.props;
+const t = ui[locale];
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={htmlLang(locale)}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f4f6f2" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={new URL(canonicalPath, Astro.site)} />
+    {alternateLocales.map((language) => <link rel="alternate" hreflang={htmlLang(language)} href={new URL(localePath(Astro.url.pathname, language), Astro.site)} />)}
     <title>{title}</title>
     <script is:inline>
       try {
@@ -32,19 +39,20 @@ const { title, description = '关于 AI、技术与创造的个人博客。', im
     </script>
   </head>
   <body class:list={['antialiased', { immersive }]}>
-    <a class="skip-link" href="#main">跳到正文</a>
+    <a class="skip-link" href="#main">{t.skip}</a>
     {immersive ? <slot /> : (
       <div class="reading-shell">
-        <header class="reading-header">
-          <a href="/" class="wordmark" aria-label="Fine 博客首页">fine<span>.</span></a>
-          <div class="reading-actions"><SiteNav current="blog" /><ThemeToggle /></div>
+        <header class="reading-header" data-site-header>
+          <a href={localePath('/', locale)} class="wordmark" aria-label={t.homeLabel}>fine<span>.</span></a>
+          <HeaderControls current="blog" locale={locale} />
         </header>
         <main id="main"><slot /></main>
-        <footer class="reading-footer"><FooterContent /></footer>
+        <footer class="reading-footer"><FooterContent locale={locale} /></footer>
       </div>
     )}
     <script>
       import '../scripts/theme';
+      import '../scripts/navigation';
     </script>
   </body>
 </html>

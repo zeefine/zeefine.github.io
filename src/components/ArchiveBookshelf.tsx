@@ -1,13 +1,14 @@
 import { Component, lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import arrowRight from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
+import { htmlLang, ui, type Locale } from '../i18n/ui';
 
 const NewsletterBookshelf = lazy(() => import('./ui/newsletter-bookshelf').then((module) => ({ default: module.NewsletterBookshelf })));
-export interface ArchiveItem { id: string; title: string; description: string; date: string }
+export interface ArchiveItem { id: string; title: string; description: string; date: string; href: string; contentLocale: Locale }
 
-function FallbackList({ items }: { items: ArchiveItem[] }) {
+function FallbackList({ items, locale }: { items: ArchiveItem[]; locale: Locale }) {
   return <div className="bookshelf-fallback">
-    <p>书架暂时无法显示，可以直接阅读以下文章，或切换到时间线。</p>
-    <ul>{items.map((item) => <li key={item.id}><a href={`/blog/${item.id}/`}>{item.title}</a><time>{item.date}</time></li>)}</ul>
+    <p>{ui[locale].shelfFallback}</p>
+    <ul>{items.map((item) => <li key={item.id} lang={htmlLang(item.contentLocale)}><a href={item.href}>{item.title}</a><time>{item.date}</time></li>)}</ul>
   </div>;
 }
 class ShelfBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
@@ -16,7 +17,8 @@ class ShelfBoundary extends Component<{ children: ReactNode; fallback: ReactNode
   render() { return this.state.failed ? this.props.fallback : this.props.children; }
 }
 
-function ShelfView({ items }: { items: ArchiveItem[] }) {
+function ShelfView({ items, locale }: { items: ArchiveItem[]; locale: Locale }) {
+  const t = ui[locale];
   const [selected, setSelected] = useState<ArchiveItem | null>(null);
   const [height, setHeight] = useState(520);
   const [ready, setReady] = useState(false);
@@ -40,26 +42,27 @@ function ShelfView({ items }: { items: ArchiveItem[] }) {
   }, []);
   const books = useMemo(() => items.map((item, index) => ({
     id: item.id, title: item.title, date: item.date.replaceAll('-', '.'),
-    href: `/blog/${item.id}/`, color: palette[index % 4], foil: index % 4 === 0 ? palette[3] : palette[4],
+    href: item.href, color: palette[index % 4], foil: index % 4 === 0 ? palette[3] : palette[4],
   })), [items, palette]);
-  const loading = <div className="bookshelf-loading" style={{ height }} role="status">正在整理书架…</div>;
+  const loading = <div className="bookshelf-loading" style={{ height }} role="status">{t.shelfLoading}</div>;
   return <>
-    <ShelfBoundary fallback={<FallbackList items={items} />}>
+    <ShelfBoundary fallback={<FallbackList items={items} locale={locale} />}>
       <Suspense fallback={loading}>
-        {ready ? <NewsletterBookshelf items={books} brand="FINE" height={height}
+        {ready ? <NewsletterBookshelf items={books} brand="FINE" height={height} locale={locale}
           onSelect={(book) => setSelected(items.find((item) => item.id === book.id) ?? null)} onClose={() => setSelected(null)} /> : loading}
       </Suspense>
     </ShelfBoundary>
     <div className="bookshelf-detail" aria-live="polite" aria-atomic="true">
       {selected ? <article>
-        <div><time dateTime={selected.date}>{selected.date.replaceAll('-', '.')}</time><h2>{selected.title}</h2><p>{selected.description}</p></div>
-        <a className="text-link" href={`/blog/${selected.id}/`}>阅读全文<span className="link-icon" aria-hidden="true" dangerouslySetInnerHTML={{ __html: arrowRight }} /></a>
-      </article> : <p>点选一本，翻看这篇记录。</p>}
+        <div lang={htmlLang(selected.contentLocale)}><time dateTime={selected.date}>{selected.date.replaceAll('-', '.')}</time><h2>{selected.title}</h2><p>{selected.description}</p></div>
+        <a className="text-link" href={selected.href}>{t.readFull}<span className="link-icon" aria-hidden="true" dangerouslySetInnerHTML={{ __html: arrowRight }} /></a>
+        {locale === 'en' && selected.contentLocale === 'zh' && <span className="original-label">{t.original}</span>}
+      </article> : <p>{t.shelfPrompt}</p>}
     </div>
   </>;
 }
 
-export default function ArchiveBookshelf({ items }: { items: ArchiveItem[] }) {
+export default function ArchiveBookshelf({ items, locale }: { items: ArchiveItem[]; locale: Locale }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState({ active: false, ids: items.map((item) => item.id), revision: '0' });
   useEffect(() => {
@@ -71,5 +74,5 @@ export default function ArchiveBookshelf({ items }: { items: ArchiveItem[] }) {
     return () => root.removeEventListener('archive:change', sync);
   }, []);
   const visible = useMemo(() => items.filter((item) => state.ids.includes(item.id)), [items, state.ids]);
-  return <div ref={hostRef}>{state.active && visible.length > 0 && <ShelfView key={state.revision} items={visible} />}</div>;
+  return <div ref={hostRef}>{state.active && visible.length > 0 && <ShelfView key={state.revision} items={visible} locale={locale} />}</div>;
 }

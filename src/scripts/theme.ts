@@ -1,3 +1,5 @@
+import { documentLocale, ui } from '../i18n/ui';
+const t = ui[documentLocale()];
 const root = document.documentElement;
 const systemTheme = matchMedia('(prefers-color-scheme: dark)');
 const controls = document.querySelectorAll<HTMLButtonElement>('.theme-toggle');
@@ -9,7 +11,7 @@ const updateTheme = () => {
   else delete root.dataset.theme;
   controls.forEach((button) => {
     button.hidden = false;
-    const label = dark ? '切换为浅色外观' : '切换为深色外观';
+    const label = dark ? t.lightTheme : t.darkTheme;
     button.setAttribute('aria-label', label);
     button.title = label;
     button.querySelectorAll<HTMLElement>('[data-theme-icon]').forEach((icon) => {

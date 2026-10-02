@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteShell from '../SiteShell.astro';
+import BookshelfView from '../BookshelfView.astro';
+import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
+import searchIcon from '@phosphor-icons/core/assets/light/magnifying-glass-light.svg?raw';
+import '../../styles/archive.css';
+import '../../styles/timeline.css';
+import '../../styles/bookshelf.css';
+
+import { getPosts, type BlogPost } from '../../lib/posts';
+import { htmlLang, localePath, message, ui, type Locale } from '../../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = ui[locale];
+const posts = await getPosts(locale);
+const years = new Map<number, BlogPost[]>();
+for (const post of posts) {
+  const year = post.pubDate.getUTCFullYear();
+  const articles = years.get(year) ?? [];
+  articles.push(post);
+  years.set(year, articles);
+}
+---
+
+<BaseLayout title={`${t.archive} · Fine`} description={t.archiveDescription} locale={locale} immersive>
+  <SiteShell current="archive" locale={locale}>
+    <header class="archive-hero timeline-hero">
+      <h1>{t.archiveTitle}</h1>
+      <p>{t.archiveIntro}</p>
+    </header>
+    <section class="timeline-archive" aria-label={t.archiveTitle}>
+      <div class="archive-toolbar">
+      <form class="archive-search" data-archive-search role="search" hidden>
+        <label for="archive-query">{t.search}</label>
+        <div class="search-field">
+          <span class="link-icon" aria-hidden="true" set:html={searchIcon} />
+          <input id="archive-query" name="q" type="search" placeholder={t.searchPlaceholder} autocomplete="off" aria-controls="archive-timeline archive-bookshelf" />
+          <button type="button" data-search-clear hidden>{t.clear}</button>
+        </div>
+      </form>
+        <div class="archive-view-switch" role="group" aria-label={t.view} hidden>
+          <button type="button" data-archive-view="bookshelf" aria-pressed="true" aria-controls="archive-bookshelf">{t.bookshelf}</button>
+          <button type="button" data-archive-view="timeline" aria-pressed="false" aria-controls="archive-timeline">{t.timeline}</button>
+        </div>
+      </div>
+      <p class="reduced-view-note" hidden>{t.reducedNote}</p>
+      <p class="timeline-status" data-search-status role="status" aria-live="polite" aria-atomic="true">{message(locale, 'total', { count: posts.length })}</p>
+      <div id="archive-timeline">
+        {Array.from(years, ([year, articles]) => <section class="timeline-year" data-timeline-year aria-labelledby={`year-${year}`}>
+          <h2 id={`year-${year}`}>{year}</h2>
+          <ol class="timeline-entries">
+            {articles.map((post) => <li class="timeline-entry" data-article-id={post.id} data-search={`${post.entry.data.title} ${post.entry.data.description}`}>
+              <article lang={htmlLang(post.contentLocale)}>
+                <time datetime={post.pubDate.toISOString()}>{post.pubDate.toISOString().slice(0, 10).replaceAll('-', '.')}</time>
+                <h3><a href={localePath(`/blog/${post.id}/`, locale)}><span>{post.entry.data.title}</span><span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a></h3>
+                <p>{post.entry.data.description}</p>
+                {locale === 'en' && post.contentLocale === 'zh' && <span class="original-label" lang="en">{t.original}</span>}
+              </article>
+            </li>)}
+          </ol>
+        </section>)}
+      </div>
+      <BookshelfView posts={posts} locale={locale} />
+      <div class="timeline-empty" data-search-empty hidden>
+        <h2>{t.noResults}</h2>
+        <p>{t.noResultsHelp}</p>
+      </div>
+      {posts.length === 0 && <div class="timeline-empty"><h2>{t.noPosts}</h2><p>{t.emptyPosts}</p></div>}
+    </section>
+  </SiteShell>
+  <script>
+    import '../../scripts/archive';
+  </script>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { BlogPost } from '../../lib/posts';
+import { htmlLang, localePath, ui, type Locale } from '../../i18n/ui';
+interface Props { post: BlogPost; locale: Locale }
+const { post, locale } = Astro.props;
+const { Content } = await render(post.entry);
+const data = post.entry.data;
+const t = ui[locale];
+const fallback = locale === 'en' && post.contentLocale === 'zh';
+---
+<BaseLayout title={`${data.title} · Fine Blog`} description={data.description} locale={locale}
+  canonicalPath={localePath(`/blog/${post.id}/`, fallback ? 'zh' : locale)}
+  alternateLocales={post.hasTranslation ? ['zh', 'en'] : ['zh']}>
+  <article>
+    {(post.previousId || post.nextId) && <nav class="article-navigation" aria-label={t.articleNavigation}>
+      {post.previousId && <a href={localePath(`/blog/${post.previousId}/`, locale)} rel="prev">
+        <span class="article-arrow" aria-hidden="true">←</span><span>{t.previousPost}</span>
+      </a>}
+      {post.nextId && <a class="next-article" href={localePath(`/blog/${post.nextId}/`, locale)} rel="next">
+        <span>{t.nextPost}</span><span class="article-arrow" aria-hidden="true">→</span>
+      </a>}
+    </nav>}
+    {fallback && <p class="translation-note">{t.translationNote}</p>}
+    <h1 class="article-title" lang={htmlLang(post.contentLocale)}>{data.title}</h1>
+    <time class="article-date" datetime={post.pubDate.toISOString()}>{post.pubDate.toISOString().slice(0, 10)}</time>
+    <div class="prose mt-10 max-w-none" lang={htmlLang(post.contentLocale)}><Content /></div>
+  </article>
+</BaseLayout>

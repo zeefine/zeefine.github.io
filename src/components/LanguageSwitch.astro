@@ -1,0 +1,30 @@
+---
+import { htmlLang, localePath, ui, type Locale } from '../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const targetLocale = locale === 'zh' ? 'en' : 'zh';
+const label = ui[locale].language;
+---
+<a class="language-toggle tool-button" data-language={targetLocale}
+  href={localePath(Astro.url.pathname, targetLocale)} hreflang={htmlLang(targetLocale)}
+  aria-label={label} title={label}>
+  <span lang={htmlLang(targetLocale)}>{targetLocale === 'en' ? 'EN' : '中'}</span>
+</a>
+<script>
+  // Keep native links (including new-tab clicks), and carry archive state across languages.
+  document.querySelectorAll<HTMLAnchorElement>('[data-language]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const target = new URL(link.href);
+      target.search = location.search;
+      target.hash = location.hash;
+      const search = document.querySelector<HTMLInputElement>('#archive-query');
+      const view = document.querySelector<HTMLButtonElement>('[data-archive-view][aria-pressed="true"]');
+      if (search) {
+        if (search.value) target.searchParams.set('q', search.value);
+        else target.searchParams.delete('q');
+      }
+      if (view?.dataset.archiveView) target.searchParams.set('view', view.dataset.archiveView);
+      link.href = target.href;
+    });
+  });
+</script>

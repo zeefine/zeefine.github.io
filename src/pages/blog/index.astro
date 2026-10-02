@@ -1,27 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteShell from '../../components/SiteShell.astro';
-import PostPreview from '../../components/PostPreview.astro';
-import '../../styles/archive.css';
-
-const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+import WritingPage from '../../components/pages/WritingPage.astro';
 ---
-
-<BaseLayout title="文章 · Fine" immersive>
-  <SiteShell current="blog">
-    <header class="archive-hero">
-      <h1>思考与记录</h1>
-      <p>关于 AI、技术与创造。把每一次探索，留在这里。</p>
-    </header>
-    <section class="latest-writing archive-writing" aria-labelledby="archive-title">
-      <div class="section-heading">
-        <h2 id="archive-title">全部文章</h2>
-        <span class="archive-count">{posts.length} 篇文章</span>
-      </div>
-      {posts.length ? <div class="post-previews">
-        {posts.map((post) => <PostPreview post={post} />)}
-      </div> : <p class="empty-posts">第一篇记录正在酝酿中。</p>}
-    </section>
-  </SiteShell>
-</BaseLayout>
+<WritingPage locale="zh" />

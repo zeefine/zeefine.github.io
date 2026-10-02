@@ -1,43 +1,7 @@
 import { createSoftlightMotion } from './softlight';
 
-const header = document.querySelector<HTMLElement>('.home-header');
-const menu = document.querySelector<HTMLElement>('#home-navigation');
-const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
-const mobile = matchMedia('(max-width: 767px)');
-
-if (header && menu && toggle) {
-  header.classList.add('js-menu');
-  const setOpen = (open: boolean, restoreFocus = false) => {
-    header.classList.toggle('menu-open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? '关闭导航' : '打开导航');
-    menu.inert = mobile.matches && !open;
-    if (open) requestAnimationFrame(() => {
-      if (toggle.getAttribute('aria-expanded') === 'true') menu.querySelector<HTMLAnchorElement>('a')?.focus();
-    });
-    else if (restoreFocus) toggle.focus();
-  };
-  const syncLayout = () => {
-    const hadFocus = menu.contains(document.activeElement);
-    toggle.hidden = !mobile.matches;
-    setOpen(false, mobile.matches && hadFocus);
-  };
-  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') setOpen(false, true);
-  });
-  document.addEventListener('click', (event) => {
-    if (event.target instanceof Node && !header.contains(event.target)) setOpen(false);
-  });
-  menu.addEventListener('click', (event) => {
-    if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
-  });
-  header.addEventListener('focusout', (event) => {
-    if (event.relatedTarget instanceof Node && !header.contains(event.relatedTarget)) setOpen(false);
-  });
-  mobile.addEventListener('change', syncLayout);
-  syncLayout();
-}
+import { documentLocale, ui } from '../i18n/ui';
+const t = ui[documentLocale()];
 
 const motionControl = document.querySelector<HTMLButtonElement>('.motion-control');
 const animatedCopy = document.querySelector<HTMLElement>('.text-shimmer');
@@ -117,7 +81,7 @@ const syncMotion = () => {
   }
   if (motionControl) {
     motionControl.hidden = reducedMotion.matches;
-    const label = manuallyPaused ? '播放页面动效' : '暂停页面动效';
+    const label = manuallyPaused ? t.playMotion : t.pauseMotion;
     motionControl.setAttribute('aria-label', label);
     motionControl.title = label;
     motionControl.querySelectorAll<HTMLElement>('[data-motion-icon]').forEach((icon) => {

@@ -1,12 +1,15 @@
 ---
+import { localePath, ui, type Locale } from '../i18n/ui';
 interface Props {
   current: 'home' | 'blog' | 'archive';
+  locale: Locale;
 }
-const { current } = Astro.props;
+const { current, locale } = Astro.props;
+const t = ui[locale];
 ---
 
-<nav class="site-nav" aria-label="主导航">
-  <a href="/" aria-current={current === 'home' ? 'page' : undefined}>首页</a>
-  <a href="/blog/" aria-current={current === 'blog' ? 'page' : undefined}>文章</a>
-  <a href="/archive/" aria-current={current === 'archive' ? 'page' : undefined}>归档</a>
+<nav class="site-nav" aria-label={t.mainNav}>
+  <a href={localePath('/', locale)} aria-current={current === 'home' ? 'page' : undefined}>{t.home}</a>
+  <a href={localePath('/blog/', locale)} aria-current={current === 'blog' ? 'page' : undefined}>{t.blog}</a>
+  <a href={localePath('/archive/', locale)} aria-current={current === 'archive' ? 'page' : undefined}>{t.archive}</a>
 </nav>

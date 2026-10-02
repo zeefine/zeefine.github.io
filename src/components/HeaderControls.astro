@@ -1,0 +1,25 @@
+---
+import SiteNav from './SiteNav.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { ui, type Locale } from '../i18n/ui';
+import pauseIcon from '@phosphor-icons/core/assets/light/pause-light.svg?raw';
+import playIcon from '@phosphor-icons/core/assets/light/play-light.svg?raw';
+interface Props { current: 'home' | 'blog' | 'archive'; locale: Locale; motion?: boolean }
+const { current, locale, motion = false } = Astro.props;
+const t = ui[locale];
+---
+<div class="header-end">
+  <div class="navigation-panel" id="site-navigation" data-navigation>
+    <SiteNav current={current} locale={locale} />
+    <LanguageSwitch locale={locale} />
+  </div>
+  <div class="header-tools">
+    <ThemeToggle locale={locale} />
+    {motion && <button class="motion-control tool-button" type="button" aria-label={t.pauseMotion} title={t.pauseMotion} hidden>
+      <span class="link-icon" data-motion-icon="pause" aria-hidden="true" set:html={pauseIcon} />
+      <span class="link-icon" data-motion-icon="play" aria-hidden="true" hidden set:html={playIcon} />
+    </button>}
+    <button class="menu-toggle tool-button" type="button" aria-controls="site-navigation" aria-expanded="false" aria-label={t.openMenu} hidden><span></span><span></span></button>
+  </div>
+</div>

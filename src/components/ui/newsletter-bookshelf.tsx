@@ -6,6 +6,7 @@
 // Official registry snapshot and license: vendor/componentry/.
 import { cn } from "../../lib/utils";
 import { wrapCoverTitle } from "../../lib/bookshelf-text";
+import { message, type Locale } from "../../i18n/ui";
 import { Canvas, type ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import {
   type CSSProperties,
@@ -30,6 +31,7 @@ export interface NewsletterBookshelfItem {
 
 export interface NewsletterBookshelfProps {
   items: NewsletterBookshelfItem[];
+  locale?: Locale;
   className?: string;
   height?: number | string;
   brand?: string;
@@ -836,6 +838,7 @@ function nearestBook(books: BookLayout[], x: number) {
 }
 
 export function NewsletterBookshelf({
+  locale = 'zh',
   items,
   className,
   height = 620,
@@ -1057,8 +1060,8 @@ export function NewsletterBookshelf({
         role="region"
         aria-label={
           selectedBook
-            ? `${selectedBook.title}，已展开。拖动旋转，再次点击或按回车阅读。`
-            : `文章书架，共 ${books.length} 本。左右方向键浏览，回车展开。`
+            ? message(locale, 'selectedBook', { title: selectedBook.title })
+            : message(locale, 'shelfLabel', { count: books.length })
         }
         className="relative h-full w-full touch-pan-y overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--shelf-accent)]"
         onPointerDown={pointerDown}

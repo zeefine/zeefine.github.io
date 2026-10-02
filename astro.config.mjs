@@ -5,6 +5,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://zeefine.github.io',
   output: 'static',
+  i18n: {
+    defaultLocale: 'zh',
+    locales: ['zh', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [react()],
   markdown: {
     shikiConfig: {

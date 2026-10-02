@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteShell from '../SiteShell.astro';
+import PostPreview from '../PostPreview.astro';
+import '../../styles/archive.css';
+
+import { getPosts } from '../../lib/posts';
+import { message, ui, type Locale } from '../../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = ui[locale];
+const posts = await getPosts(locale);
+---
+
+<BaseLayout title={`${t.blog} · Fine`} locale={locale} immersive>
+  <SiteShell current="blog" locale={locale}>
+    <header class="archive-hero">
+      <h1>{t.blogTitle}</h1>
+      <p>{t.blogIntro}</p>
+    </header>
+    <section class="latest-writing archive-writing" aria-labelledby="archive-title">
+      <div class="section-heading">
+        <h2 id="archive-title">{t.allPosts}</h2>
+        <span class="archive-count">{message(locale, 'count', { count: posts.length })}</span>
+      </div>
+      {posts.length ? <div class="post-previews">
+        {posts.map((post) => <PostPreview post={post} locale={locale} />)}
+      </div> : <p class="empty-posts">{t.emptyPosts}</p>}
+    </section>
+  </SiteShell>
+</BaseLayout>

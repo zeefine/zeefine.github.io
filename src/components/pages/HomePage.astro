@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteShell from '../SiteShell.astro';
+import PostPreview from '../PostPreview.astro';
+import arrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg?raw';
+
+import { getPosts } from '../../lib/posts';
+import { localePath, ui, type Locale } from '../../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = ui[locale];
+const posts = await getPosts(locale);
+---
+
+<BaseLayout title="Fine · Stay Curious" locale={locale} immersive>
+  <SiteShell current="home" locale={locale}>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <h1 id="hero-title" lang="en">
+          <span class="hero-title-line">Stay Curious.</span>
+          <span class="hero-title-line">Build What's Next.</span>
+        </h1>
+        <p class="hero-copy"><span class="text-shimmer">{t.happy}</span><br />: )<br />: )</p>
+        <a class={posts.length ? 'primary-cta' : 'text-link'} href={localePath('/blog/', locale)}><span>{posts.length ? t.startReading : t.browsePosts}</span><span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} /></a>
+      </div>
+    </section>
+    <section class="latest-writing" aria-labelledby="writing-title">
+      <div class="section-heading"><h2 id="writing-title">{t.latest}</h2></div>
+      {posts.length ? <div class="post-previews">
+        {posts.slice(0, 3).map((post) => <PostPreview post={post} locale={locale} />)}
+      </div> : <p class="empty-posts">{t.emptyPosts}</p>}
+      {posts.length > 0 && <div class="latest-more">
+        <a class="text-link" href={localePath('/blog/', locale)}>
+          <span>{t.more}</span>
+          <span class="link-icon" aria-hidden="true" set:html={arrowRightIcon} />
+        </a>
+      </div>}
+    </section>
+  </SiteShell>
+</BaseLayout>
