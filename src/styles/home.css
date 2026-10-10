@@ -34,7 +34,7 @@
 .post-summary h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 7px; }
 .post-arrow { color: var(--accent); margin-top: calc((1.4em - 20px) / 2); }
 .post-summary p, .empty-posts { color: var(--muted); font-size: 16px; line-height: 1.8; max-width: 40em; }
-.home-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 48px; padding-block: 24px 32px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+.home-footer { margin-top: 48px; padding-block: 24px 32px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
 .home-footer a:hover { text-decoration: underline; text-underline-offset: 5px; }
 @media (prefers-reduced-motion: no-preference) {
   .hero-title-line { animation: title-arrive 1000ms cubic-bezier(.22, .61, .36, 1) both; }

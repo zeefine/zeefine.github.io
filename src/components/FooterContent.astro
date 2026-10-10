@@ -1,17 +1,29 @@
 ---
 import { ui, type Locale } from '../i18n/ui';
+import CarbonBadge from './CarbonBadge.astro';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 ---
-<div class="footer-links">
-  <a href="https://github.com/zeefine" target="_blank" rel="noopener noreferrer">GitHub</a>
-  <span>{ui[locale].email}</span>
+<div class="footer-content">
+  <div class="footer-identity">
+    <div class="footer-links">
+      <a href="https://github.com/zeefine" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <span>{ui[locale].email}</span>
+    </div>
+    <span class="footer-copyright">© 2026 Fine</span>
+  </div>
+  <CarbonBadge locale={locale} />
 </div>
-<span class="footer-copyright">© 2026 Fine</span>
 
 <style>
+  .footer-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, max-content); align-items: start; gap: 24px; }
+  .footer-identity { display: grid; gap: 8px; }
   .footer-links { display: flex; align-items: center; gap: 24px; }
-  .footer-links > * { display: inline-flex; align-items: center; min-height: 44px; }
+  .footer-links > * { display: inline-flex; align-items: center; min-height: 36px; }
   .footer-links a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 5px; }
-  .footer-copyright { white-space: nowrap; }
+  .footer-copyright { font-size: 12px; line-height: 1.8; white-space: nowrap; }
+  @media (pointer: coarse) { .footer-links > * { min-height: 44px; } }
+  @media (max-width: 767px) {
+    .footer-content { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  }
 </style>

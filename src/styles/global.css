@@ -122,7 +122,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) .astro-code span { color: var(--shiki-dark) !important; }
 }
-.reading-footer { border-top: 1px solid var(--border); margin-top: 80px; padding-top: 24px; color: var(--muted); font-size: 13px; display: flex; align-items: center; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+.reading-footer { border-top: 1px solid var(--border); margin-top: 80px; padding-top: 24px; color: var(--muted); font-size: 13px; }
 @media (prefers-reduced-motion: no-preference) {
   .tool-button { transition: background 180ms ease, transform 180ms ease; }
   .tool-button:active { transform: scale(.98); }

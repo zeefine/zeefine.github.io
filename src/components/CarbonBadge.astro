@@ -1,0 +1,38 @@
+---
+import leafIcon from '@phosphor-icons/core/assets/light/leaf-light.svg?raw';
+import { ui, type Locale } from '../i18n/ui';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = ui[locale];
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<div class="carbon-badge" data-carbon-badge data-page-url={pageUrl} aria-live="polite" aria-atomic="true">
+  <a class="carbon-pill" href="https://www.websitecarbon.com/" target="_blank" rel="noopener noreferrer" aria-describedby="carbon-caption">
+    <span class="carbon-leaf" aria-hidden="true" set:html={leafIcon} />
+    <span class="carbon-value" data-carbon-value>{t.carbonPending}</span>
+    <span class="carbon-divider" aria-hidden="true"></span>
+    <span class="carbon-brand" lang="en">Website Carbon</span>
+  </a>
+  <p class="carbon-caption" id="carbon-caption" data-carbon-caption>{t.carbonEstimate}</p>
+</div>
+
+<script>
+  import '../scripts/carbon-badge';
+</script>
+
+<style>
+  .carbon-badge { min-width: 0; max-width: 100%; display: grid; grid-template-columns: minmax(0, max-content); justify-content: start; gap: 8px; }
+  .carbon-pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 36px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--muted); font-size: 12px; line-height: 1.5; text-decoration: none; }
+  a.carbon-pill:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  a.carbon-pill:focus-visible { border-radius: 999px; }
+  .carbon-leaf { display: inline-flex; flex-shrink: 0; width: 14px; height: 14px; color: var(--accent); }
+  .carbon-leaf :global(svg) { display: block; width: 100%; height: 100%; }
+  .carbon-value { min-width: 0; color: var(--accent); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .carbon-divider { width: 1px; height: 12px; flex-shrink: 0; background: var(--border); }
+  .carbon-brand { white-space: nowrap; }
+  /* Let the pill determine the column width; longer captions wrap beneath it. */
+  .carbon-caption { margin: 0; width: 0; min-width: 100%; min-height: 1.8em; text-align: center; font-size: 12px; line-height: 1.8; color: var(--muted); }
+  @media (pointer: coarse) { .carbon-pill { min-height: 44px; } }
+</style>
