@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteShell from '../SiteShell.astro';
+import TreeStudy from '../TreeStudy';
+import type { Locale } from '../../i18n/ui';
+import '../../styles/garden.css';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const title = locale === 'en' ? 'Room to grow.' : '慢慢生长。';
+const description = locale === 'en'
+  ? 'A tree growing slowly, its branches reaching out into a fuller crown.'
+  : '枝条慢慢舒展，叶片逐渐丰盈。';
+---
+
+<BaseLayout title={`${title} · Fine`} description={description} locale={locale} immersive>
+  <SiteShell current="garden" locale={locale}>
+    <header class="garden-heading">
+      <h1>{title}</h1>
+    </header>
+    <TreeStudy locale={locale} client:visible />
+    <noscript>
+      <style is:inline>.tree-study { display: none; }</style>
+      <p class="tree-study-note">{locale === 'en' ? 'Enable JavaScript to view the tree in 3D.' : '启用 JavaScript 后，可以查看这棵树的 3D 形态。'}</p>
+    </noscript>
+  </SiteShell>
+</BaseLayout>

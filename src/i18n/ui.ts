@@ -1,7 +1,7 @@
 export type Locale = 'zh' | 'en';
 
 const zh = {
-  home: '首页', blog: '文章', archive: '归档', mainNav: '主导航',
+  home: '首页', blog: '文章', archive: '归档', garden: '花园', mainNav: '主导航',
   homeLabel: 'Fine 博客首页', language: '切换为英文', skip: '跳到正文',
   openMenu: '打开导航', closeMenu: '关闭导航',
   lightTheme: '切换为浅色外观', darkTheme: '切换为深色外观',
@@ -31,7 +31,7 @@ const zh = {
 };
 
 const en: Record<keyof typeof zh, string> = {
-  home: 'Home', blog: 'Writing', archive: 'Archive', mainNav: 'Main navigation',
+  home: 'Home', blog: 'Writing', archive: 'Archive', garden: 'Garden', mainNav: 'Main navigation',
   homeLabel: 'Fine blog home', language: 'Switch to Chinese', skip: 'Skip to content',
   openMenu: 'Open navigation', closeMenu: 'Close navigation',
   lightTheme: 'Switch to light appearance', darkTheme: 'Switch to dark appearance',

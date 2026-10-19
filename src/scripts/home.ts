@@ -68,6 +68,7 @@ try { manuallyPaused = sessionStorage.getItem('fine-motion-paused') === 'true'; 
 
 const syncMotion = () => {
   const running = !reducedMotion.matches && !manuallyPaused && !document.hidden;
+  document.documentElement.style.setProperty('--page-motion-play-state', running ? 'running' : 'paused');
   softlightMotion.sync(running, reducedMotion.matches);
   animatedCopy?.style.setProperty('--copy-motion-play-state', running ? 'running' : 'paused');
   following = running && finePointer.matches && lightLayers.length > 0;

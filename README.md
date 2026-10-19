@@ -40,6 +40,20 @@ npm run dev
 | `npm run build` | 先检查类型，再生成 `dist/` 静态网站 |
 | `npm run preview` | 本地预览已构建的网站 |
 
+## 日常修改常用入口
+
+| 想修改的内容 | 文件或目录 | 说明 |
+| --- | --- | --- |
+| 写文章 | [src/content/blog/](src/content/blog/) | 新建或编辑 Markdown 文章，字段格式见下方“写文章”章节。 |
+| 修改导航 | [SiteNav.astro](src/components/SiteNav.astro) | 所有页面共用的“首页 / 文章 / 归档 / 花园”导航、链接及选中状态。 |
+| 修改中英文界面文案 | [ui.ts](src/i18n/ui.ts) | 通用界面文案；花园专属文案还位于 `GardenPage.astro`、`TreeStudy.tsx` 和 `GardenWatering.tsx` 中。 |
+| 调整树的形态和材质 | [garden-tree.ts](src/lib/garden-tree.ts) | 树干、枝条、叶片的生成与配色、透明材质；各成长阶段的比例参数位于 [garden-growth.ts](src/lib/garden-growth.ts)。 |
+| 恢复树的调试面板 | [TreeStudy.tsx](src/components/TreeStudy.tsx) | 搜索 `GARDEN_DEBUG`，按标记恢复视角切换、成长阶段和风动调试控件。 |
+
+花园当前只展示正面整树、浇水按钮和累计次数。调试代码已注释保留：恢复时需取消相关 import、状态、effect、初始化、时间回调和 JSX 代码块的注释；恢复时间回调时，移除临时的 `const onWindTime = undefined`。调试面板恢复后仅在开发环境显示。
+
+树的参数与实现说明见 [成长阶段](docs/garden-growth.md) 和 [动态参数](docs/garden-motion-parameters.md)。
+
 ## 写文章
 
 在 `src/content/blog/` 下添加 `.md` 文件，例如 `my-first-post.md`：

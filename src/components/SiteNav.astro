@@ -1,7 +1,7 @@
 ---
 import { localePath, ui, type Locale } from '../i18n/ui';
 interface Props {
-  current: 'home' | 'blog' | 'archive';
+  current: 'home' | 'blog' | 'archive' | 'garden';
   locale: Locale;
 }
 const { current, locale } = Astro.props;
@@ -12,4 +12,5 @@ const t = ui[locale];
   <a href={localePath('/', locale)} aria-current={current === 'home' ? 'page' : undefined}>{t.home}</a>
   <a href={localePath('/blog/', locale)} aria-current={current === 'blog' ? 'page' : undefined}>{t.blog}</a>
   <a href={localePath('/archive/', locale)} aria-current={current === 'archive' ? 'page' : undefined}>{t.archive}</a>
+  <a href={localePath('/garden/', locale)} aria-current={current === 'garden' ? 'page' : undefined}>{t.garden}</a>
 </nav>

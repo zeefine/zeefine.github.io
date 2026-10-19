@@ -1,0 +1,47 @@
+.garden-heading { padding-block: 32px 8px; }
+.garden-heading h1 { margin: 0; color: var(--text); font-size: clamp(32px, 3vw, 40px); font-weight: 450; line-height: 1.2; letter-spacing: -.035em; }
+.tree-study { position: relative; padding-bottom: 16px; }
+.tree-study-canvas { position: relative; width: 100%; height: clamp(460px, 65vh, 680px); }
+.tree-study-canvas canvas { display: block; }
+.tree-study-renderer { position: absolute; inset: 0; }
+.garden-watering { display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 16px; }
+.garden-water-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 160px; min-height: 46px; padding: 0 24px; border: 1px solid transparent; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: 15px; }
+.garden-water-button:hover:not(:disabled) { background: var(--accent-hover); }
+.garden-water-button:focus-visible { border-radius: 999px; }
+.garden-water-button:disabled { cursor: default; }
+.garden-water-button[data-watering='true'] .garden-water-drop { animation: garden-water-drop 900ms cubic-bezier(.22, 1, .36, 1); animation-play-state: var(--page-motion-play-state, paused); }
+.garden-water-count { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.garden-water-count strong { margin-inline: 4px; color: var(--text); font-weight: 500; font-variant-numeric: tabular-nums; }
+.garden-water-note { max-width: 36em; margin: 0; padding-inline: 16px; color: var(--muted); font-size: 12px; text-align: center; line-height: 1.8; }
+@keyframes garden-water-drop { 0%, 100% { transform: translateY(0); opacity: 1; } 40% { transform: translateY(3px); opacity: .55; } }
+@media (prefers-reduced-motion: reduce) {
+  .garden-water-button[data-watering='true'] .garden-water-drop { animation: none; }
+}
+.tree-study-controls { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px 24px; padding-top: 16px; }
+.tree-study-views { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
+.tree-study-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--muted); font-size: 13px; line-height: 1.4; }
+.tree-study-controls button:hover { background: var(--surface-raised); color: var(--text); }
+.tree-study-controls button[aria-pressed='true'] { background: var(--code-surface); color: var(--text); border-color: var(--accent); }
+.tree-study-controls button:focus-visible { border-radius: 999px; }
+.tree-study-controls button:disabled { cursor: default; opacity: .45; }
+.tree-study-debug { max-width: 640px; margin: 20px auto 0; color: var(--muted); font-size: 13px; text-align: center; }
+.tree-study-debug summary { display: list-item; width: fit-content; margin-inline: auto; padding: 8px 12px; cursor: pointer; }
+.tree-study-debug .tree-study-controls { gap: 8px; padding-top: 12px; }
+.tree-study-debug .tree-study-growth { padding-bottom: 16px; margin-bottom: 4px; border-bottom: 1px solid var(--border); }
+.tree-study-growth > span { margin-right: 8px; }
+.tree-study-debug .tree-study-timeline { gap: 12px; margin-top: 12px; border-top: 1px solid var(--border); }
+.tree-study-scrubber { display: flex; align-items: center; gap: 10px; flex: 1 1 200px; min-width: 0; }
+.tree-study-scrubber span { white-space: nowrap; }
+.tree-study-scrubber input { width: 100%; min-width: 0; height: 44px; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.tree-study-scrubber input:disabled { cursor: default; opacity: .45; }
+.tree-study-time { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tree-study-note { margin: 16px 0 0; color: var(--muted); text-align: center; font-size: 13px; line-height: 1.8; }
+.tree-study-fallback { display: flex; align-items: center; justify-content: center; min-height: 100%; margin: 0; padding: 24px; color: var(--muted); text-align: center; font-size: 15px; line-height: 1.8; }
+@media (max-width: 767px) {
+  .garden-heading { padding-block: 32px 8px; }
+  .garden-heading h1 { font-size: 36px; line-height: 1.25; }
+  .tree-study-canvas { height: 430px; }
+  .tree-study-controls { gap: 12px; padding-top: 8px; }
+  .tree-study-controls button { padding-inline: 14px; }
+  .tree-study-scrubber { flex-basis: 100%; order: 1; }
+}
