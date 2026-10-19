@@ -47,6 +47,7 @@ npm run dev
 | 写文章 | [src/content/blog/](src/content/blog/) | 新建或编辑 Markdown 文章，字段格式见下方“写文章”章节。 |
 | 修改导航 | [SiteNav.astro](src/components/SiteNav.astro) | 所有页面共用的“首页 / 文章 / 归档 / 花园”导航、链接及选中状态。 |
 | 修改中英文界面文案 | [ui.ts](src/i18n/ui.ts) | 通用界面文案；花园专属文案还位于 `GardenPage.astro`、`TreeStudy.tsx` 和 `GardenWatering.tsx` 中。 |
+| 调整树下草地 | [garden-grass.ts](src/lib/garden-grass.ts) | 草地范围、草簇密度、草叶配色与独立风动幅度；与树共用 8 秒时钟。 |
 | 调整树的形态和材质 | [garden-tree.ts](src/lib/garden-tree.ts) | 树干、枝条、叶片的生成与配色、透明材质；各成长阶段的比例参数位于 [garden-growth.ts](src/lib/garden-growth.ts)。 |
 | 恢复树的调试面板 | [TreeStudy.tsx](src/components/TreeStudy.tsx) | 搜索 `GARDEN_DEBUG`，按标记恢复视角切换、成长阶段和风动调试控件。 |
 

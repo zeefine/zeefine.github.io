@@ -16,7 +16,7 @@ test('whole-tree leaf motion is visible at the normal desktop scale without exce
     const width = 1120, height = 468, aspect = width / height;
     const halfHeight = Math.max(size.y * .56, Math.max(size.x, size.z) * .58 / aspect);
     const camera = new THREE.OrthographicCamera(-halfHeight * aspect, halfHeight * aspect, halfHeight, -halfHeight, .1, 100);
-    camera.position.set(0, center.y + .45, 18); camera.lookAt(0, center.y, 0); camera.updateMatrixWorld();
+    camera.position.set(0, center.y + 3.2, 18); camera.lookAt(0, center.y, 0); camera.updateMatrixWorld();
     const g = leaves.geometry, branch = g.getAttribute('branchBend'), shape = g.getAttribute('branchShape');
     const twig = g.getAttribute('twigBend'), twigShape = g.getAttribute('twigShape');
     const phase = g.getAttribute('windPhase'), blade = g.getAttribute('leafBladeVariation');

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { createGardenTree } from './garden-tree';
+import { createGardenGrass } from './garden-grass';
 import { createGardenMotion, createGardenWindClock } from './garden-motion';
 import { GARDEN_REFERENCE_FRAME, type GardenGrowthStage } from './garden-growth';
 import { createWaterDrops } from './garden-water-drops';
@@ -77,6 +78,9 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
 
     const scene = new THREE.Scene();
     scene.add(tree.group);
+    const meadow = createGardenGrass();
+    scene.add(meadow.group);
+    cleanups.push(() => meadow.dispose());
     let waterDrops = createWaterDrops(tree.wateringTargets);
     scene.add(waterDrops.mesh);
     cleanups.push(() => waterDrops.dispose());
@@ -106,7 +110,9 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
     const size = new THREE.Vector3(GARDEN_REFERENCE_FRAME.width, GARDEN_REFERENCE_FRAME.height, GARDEN_REFERENCE_FRAME.depth);
     const center = new THREE.Vector3(0, GARDEN_REFERENCE_FRAME.centerY, 0);
     const camera = new THREE.OrthographicCamera(-5, 5, 4, -4, .1, 100);
-    camera.position.set(0, center.y + .45, 18);
+    // A slight downward view reveals the meadow while retaining the front silhouette.
+    const gardenCameraLift = 3.2;
+    camera.position.set(0, center.y + gardenCameraLift, 18);
     camera.lookAt(0, center.y, 0);
 
     const sky = new THREE.HemisphereLight(0xf5f7e7, 0x566150, 0.85);
@@ -160,7 +166,7 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
     // Use the shared control's rendered state; it also works when storage is blocked.
     const manuallyPaused = () => motionControl?.querySelector<HTMLElement>('[data-motion-icon="play"]')?.hidden === false;
     const motionAllowed = () => !reduced.matches && !manuallyPaused();
-    const hasWind = () => leafEdges || leafBlades || (twigs && study !== 'leaf');
+    const hasWind = () => study === 'tree' || leafEdges || leafBlades || (twigs && study !== 'leaf');
     const windPlaying = () => hasWind() && !windPaused;
     const shouldAnimate = () => motionAllowed() && (windPlaying() || motion.turning || watering.active || !!growth);
 
@@ -193,6 +199,7 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
         }
         if (windPlaying()) {
           tree.updateMotion(windClock.tick(now));
+          meadow.update(windClock.seconds);
           // The development timeline needs only four updates per second.
           if (import.meta.env.DEV && onWindTime && now - lastWindNotice >= 250) {
             lastWindNotice = now;
@@ -216,6 +223,7 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
       tree.setLeafBlades(leafBlades && !reduced.matches);
       tree.setTwigs(twigs && !reduced.matches && study !== 'leaf');
       tree.setWindTravel(windTravel);
+      meadow.setMotion(!reduced.matches);
       if (!motionAllowed()) {
         // Never queue a shower to play later when motion is re-enabled.
         stopWatering();
@@ -240,7 +248,7 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
       const halfHeight = twigSize ? Math.max(twigSize.y * .65, twigSize.x * .65 / aspect, .25)
         : study === 'leaf' ? Math.max(.65, .4 / aspect)
         : Math.max(size.y * .56, Math.max(size.x, size.z) * .58 / aspect);
-      camera.position.set(study === 'twig' ? focus.x : 0, focus.y + (study === 'tree' ? .45 : .025), study === 'twig' ? focus.z + 18 : 18);
+      camera.position.set(study === 'twig' ? focus.x : 0, focus.y + (study === 'tree' ? gardenCameraLift : .025), study === 'twig' ? focus.z + 18 : 18);
       camera.lookAt(study === 'twig' ? focus.x : 0, focus.y, study === 'twig' ? focus.z : 0);
       camera.left = -halfHeight * aspect;
       camera.right = halfHeight * aspect;
@@ -327,6 +335,7 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
         releaseStudies();
         study = 'tree';
         ground.visible = true;
+        meadow.group.visible = true;
         tree = next;
         replaceDrops(animate && options.afterWater ? previous.wateringTargets : next.wateringTargets);
         scene.add(tree.group);
@@ -353,6 +362,7 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
         windPaused = true;
         windClock.seek(seconds);
         tree.updateMotion(windClock.seconds);
+        meadow.update(windClock.seconds);
         sync();
       },
       setStudy(mode) {
@@ -372,6 +382,7 @@ export function createGardenScene(host: HTMLElement, onError: () => void, onWind
         if (twigStudy) twigStudy.group.visible = mode === 'twig';
         tree.group.visible = mode === 'tree';
         ground.visible = mode === 'tree';
+        meadow.group.visible = mode === 'tree';
         motion.finishView();
         tree.group.rotation.y = motion.rotation;
         resize();
