@@ -163,7 +163,7 @@ test('the approved small-to-medium intermediate pose stays unchanged', () => {
 });
 
 test('both watering thresholds select the matching forward duration; other stage switches are instant', () => {
-  for (const [count, seconds] of [[25, 1.8], [50, 2.2]]) {
+  for (const [count, seconds] of [[30, 1.8], [60, 2.2]]) {
     assert.equal(growthTransitionSeconds(growthStageForWaterings(count - 1), growthStageForWaterings(count)), seconds);
     assert.equal(growthTransitionSeconds(growthStageForWaterings(count), growthStageForWaterings(count + 1)), 0);
   }

@@ -21,17 +21,17 @@ test('watering is local to each browser and persists across page or language rel
   assert.equal(createGardenProgress(firstStorage).read().count, 2);
 });
 
-test('the 25th and 50th waterings grow the tree while later waterings keep accumulating', () => {
+test('the 30th and 60th waterings grow the tree while later waterings keep accumulating', () => {
   const progress = createGardenProgress(memoryStorage());
-  for (let i = 1; i <= 52; i++) {
+  for (let i = 1; i <= 62; i++) {
     const { count } = progress.water();
     assert.equal(count, i);
-    assert.equal(growthStageForWaterings(count), i < 25 ? 'growing' : i < 50 ? 'medium' : 'mature');
+    assert.equal(growthStageForWaterings(count), i < 30 ? 'growing' : i < 60 ? 'medium' : 'mature');
   }
-  for (const count of [0, 10, 24, 25, 26, 49, 50, 51]) {
+  for (const count of [0, 24, 25, 29, 30, 31, 49, 50, 52, 59, 60, 61]) {
     const restored = createGardenProgress(memoryStorage(String(count))).read();
     assert.equal(restored.count, count, 'existing progress survives the threshold change');
-    assert.equal(growthStageForWaterings(restored.count), count < 25 ? 'growing' : count < 50 ? 'medium' : 'mature');
+    assert.equal(growthStageForWaterings(restored.count), count < 30 ? 'growing' : count < 60 ? 'medium' : 'mature');
   }
 });
 

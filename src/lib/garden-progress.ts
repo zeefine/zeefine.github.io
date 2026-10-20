@@ -1,8 +1,8 @@
 import type { GardenGrowthStage } from './garden-growth';
 
 export const GARDEN_WATERING_KEY = 'fine:garden:waterings:v1';
-export const MEDIUM_WATERINGS = 25;
-export const MATURE_WATERINGS = 50;
+export const MEDIUM_WATERINGS = 30;
+export const MATURE_WATERINGS = 60;
 
 export type GardenProgress = { count: number; persisted: boolean };
 type ProgressStorage = Pick<Storage, 'getItem' | 'setItem'>;
