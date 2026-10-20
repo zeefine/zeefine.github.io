@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 // Independent of tree growth: a quiet, fixed patch around all three stages.
-export const GRASS = { radiusX: 3.7, radiusZ: 1.65, clumps: 420, blades: 12, segments: 5,
+export const GRASS = { radiusX: 7.45875, radiusZ: 1.65, clumpsPerArea: 22, blades: 12, segments: 5,
   tipBend: .065, localBend: .018, period: 8 } as const;
 
 function randomSource() {
@@ -38,22 +38,17 @@ export function createGardenGrass() {
   const rootColor = new THREE.Color('#637a56');
   const tipColors = ['#aabb87', '#b9c89b', '#96ad7e', '#c2cda2'].map(color => new THREE.Color(color));
   const color = new THREE.Color();
-  for (let clump = 0; clump < GRASS.clumps; clump++) {
-    const angle = random() * Math.PI * 2;
-    const radius = Math.sqrt(random()) * edge(angle);
-    const cx = Math.cos(angle) * radius * GRASS.radiusX;
-    const cz = Math.sin(angle) * radius * GRASS.radiusZ;
-    // Keep the trunk foot legible, with a sparse, irregular fringe outside.
-    if (Math.hypot(cx, cz) < .24) continue;
+  function addClump(cx: number, cz: number, radius: number, bridge = false) {
     const fringe = THREE.MathUtils.smoothstep(radius, .7, 1.1);
     const count = Math.round(GRASS.blades * (1 - fringe * .7));
     const height = (.22 + random() * .26) * (1 - fringe * .3);
     const tipColor = tipColors[Math.floor(random() * tipColors.length)]!;
     const phase = cx * .8 + cz * .7 + random() * .65;
     for (let blade = 0; blade < count; blade++) {
-      const spread = random() * .15;
+      const spread = random() * (bridge ? .025 : .15);
       const direction = random() * Math.PI * 2;
-      const x = cx + Math.cos(direction) * spread, z = cz + Math.sin(direction) * spread;
+      const x = bridge && blade === 0 ? cx : cx + Math.cos(direction) * spread;
+      const z = bridge && blade === 0 ? cz : cz + Math.sin(direction) * spread;
       const y = groundHeight(x, z);
       const length = height * (.6 + random() * .65);
       const width = .012 + random() * .013;
@@ -75,6 +70,35 @@ export function createGardenGrass() {
           indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
         }
       }
+    }
+  }
+  // Match the initial patch's density, keeping existing random clumps unchanged.
+  const clumpCount = Math.round(Math.PI * GRASS.radiusX * GRASS.radiusZ * GRASS.clumpsPerArea);
+  for (let clump = 0; clump < clumpCount; clump++) {
+    const angle = random() * Math.PI * 2;
+    const radius = Math.sqrt(random()) * edge(angle);
+    const x = Math.cos(angle) * radius * GRASS.radiusX;
+    const z = Math.sin(angle) * radius * GRASS.radiusZ;
+    if (Math.hypot(x, z) < .24) continue;
+    addClump(x, z, radius);
+  }
+  // Inspect actual blade roots in front projection, not just random clump centers.
+  // Keep the existing planting; compact bridge tufts connect detached edge islands.
+  const roots: Array<{ x: number; z: number }> = [];
+  for (let i = 0; i < positions.length; i += (GRASS.segments + 1) * 6) {
+    roots.push({ x: (positions[i]! + positions[i + 3]!) / 2,
+      z: (positions[i + 2]! + positions[i + 5]!) / 2 });
+  }
+  roots.sort((a, b) => a.x - b.x);
+  for (let i = 1; i < roots.length; i++) {
+    const a = roots[i - 1]!, b = roots[i]!;
+    if (Math.abs((a.x + b.x) / 2) < GRASS.radiusX * .65 || b.x - a.x <= .045) continue;
+    const steps = Math.ceil((b.x - a.x) / .04);
+    for (let step = 1; step < steps; step++) {
+      const t = step / steps;
+      const x = THREE.MathUtils.lerp(a.x, b.x, t);
+      const z = THREE.MathUtils.lerp(a.z, b.z, t);
+      addClump(x, z, Math.hypot(x / GRASS.radiusX, z / GRASS.radiusZ), true);
     }
   }
   const geometry = new THREE.BufferGeometry();
